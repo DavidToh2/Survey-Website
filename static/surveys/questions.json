@@ -1,0 +1,62 @@
+[
+    {
+        "sections": 2
+    },
+    [
+        {
+            "section-no": 1,
+            "section-name": "Personal Info",
+            "questions": 5
+        },
+        {
+            "question": "What is your age?",
+            "input-type": "text"
+        },
+        {
+            "question": "What is your favourite color?",
+            "input-type": "text"
+        },
+        {
+            "question": "What is your favourite hobby?",
+            "input-type": "text"
+        },
+        {
+            "question": "What is your favourite food?",
+            "input-type": "text"
+        },
+        {
+            "question": "Tell me a bit about yourself.",
+            "input-type": "textarea"
+        }
+        
+        
+    ],
+    [
+        {
+            "section-no": 2,
+            "section-name": "Common Knowledge",
+            "questions": 3
+        },
+        {
+            "question": "How many miles are there in a kilometer?",
+            "input-type": "options",
+            "options": [0.5, 0.625, 1, 1.6],
+            "correct-answer": 0.625,
+            "id": 1
+        },
+        {
+            "question": "What is the approximate population of Singapore?",
+            "input-type": "options",
+            "options": ["4.8 million", "5.6 million", "6.1 million", "7.8 million"],
+            "correct-answer": "5.6 million",
+            "id": 2
+        },
+        {
+            "question": "How deep is the Mariana Trench?",
+            "input-type": "options",
+            "options": ["8,000 feet", "8,000 meters", "11,000 feet", "11,000 meters"],
+            "correct-answer": "11,000 meters",
+            "id": 3
+        }
+    ]
+]

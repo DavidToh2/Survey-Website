@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+
+{% block extraFiles %} <script src="{{ url_for('static', filename='survey-script.js') }}"></script> {% endblock %}
+
+{% block content %}
+
+<div class="survey-container">
+    <div class="section">
+        <h1>Welcome to the survey, {{ userName }}</h1>
+    </div>
+    <form class="section survey-main" action="/thank-you" method="post">
+        <input type="hidden" name="username" value="{{ userName }}">
+        <input type="hidden" name="selectedSurvey" value="{{ selectedSurvey }}">
+
+        <!-- userName and selectedSurvey are the two values POSTed by the server. These values are stored in hidden
+        input fields. -->
+
+        <!-- selectedSurvey is then picked up by survey-script.js. Here, Javascript is used to read the survey.json
+        file, which contains the actual questions and question types. -->
+
+        <!-- Note that, ordinarily, all of this is done in PHP. 
+            $_POST['key'] can be used to get data which was POSTed.
+            echo "HTML HERE" inserts lines of HTML, similar to JQuery's .appendTo() function.
+            file_get_contents() and json_decode() can read JSON files.
+        However, Flask is a HTTP server and cannot parse PHP files. 
+        -->
+
+        <div id="survey">
+            <div class="survey-section" id="section-1">
+                <div class="survey-section-title">
+                    About Yourself
+                </div>
+                <div class="survey-questions" id="section-1-questions">
+                    <div class="survey-question">
+                        <div class="survey-question-no">Q0.</div>
+                        <div class="survey-question-text">
+                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dicta ullam dolorem, aut ratione culpa repellendus eveniet. Eveniet fugiat nulla quos dolorem, dolor ipsum veritatis consequuntur, nostrum blanditiis itaque placeat quaerat?
+                        </div>
+                        <div class="survey-question-answer">
+                            <input type="text" class="survey-input-short" name="q0_input" placeholder="Answer here">Hello there
+                        </div>
+                        <div class="survey-question-response">
+                            You answered this question correctly!
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="survey-submit">
+            <button class="survey-submit-button" type="submit">Submit Answers!</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
