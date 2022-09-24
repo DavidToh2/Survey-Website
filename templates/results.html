@@ -41,7 +41,7 @@
             </div>
             <div class="section" id="result-table">
                 <table class="results-table" id="results-table-data">
-                    {% for result in responses %}
+                    {% for result in responses|reverse %}
                     <tr class="results-table-datarow">
                         {% for element in result %}
                         <td class="results-table-data">{{ element }}</td>

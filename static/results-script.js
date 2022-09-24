@@ -1,6 +1,13 @@
 function displayResults() {
 
+    /* Survey results are fetched from the database by app.py and passed using POST. (server-side)
+    Jinja2 reads the results and helps format the HTML.
+    This HTML is fetched by the following line: */
+
     var resultTableData = $('#results-table-data').html();
+
+    /* Following that, the HTML is cleared and re-formatted, before the page is re-loaded. */
+
     $('#result').empty();
 
     var selectedSurvey = $('input[name="selectedSurvey"]').val();
@@ -10,6 +17,12 @@ function displayResults() {
     } else {
 
         $.getJSON(`static/surveys/${selectedSurvey}.json`, function(data) {
+
+            /* This part of the code just builds the table headers. (client-side)
+            This is done in JavaScript instead of Jinja2 because of 2 reasons:
+                - I am short-sighted
+                - Table cell width depends on question type, which is stored in the .json file and is more natural to read client-side
+            */
             
             var outputHTML = [];
 
@@ -58,7 +71,7 @@ function displayResults() {
 
             } 
 
-            console.log(resultTableData);
+            // console.log(resultTableData);
 
             outputHTML.push(`</tr>
 
@@ -67,7 +80,7 @@ function displayResults() {
                 </table>
             </div>`);
 
-            console.log(outputHTML);
+            // console.log(outputHTML);
             
             $(outputHTML.join("")).appendTo('#result');
 

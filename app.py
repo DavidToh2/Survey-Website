@@ -73,16 +73,13 @@ def submitSurvey():
 @app.route("/results", methods=["GET", "POST"])
 def loadResults():
 
-                    # This function uses Python to directly read noOfSections and noOfQuestions data from the survey.json file.
-                    # The function is defined in database.py.
-
     selectedSurvey = request.form.get("survey-select")
 
     if selectedSurvey:      # User clicks on a specific survey
 
         db = sqlite3.connect("results.db")
-        responseData = db.execute(f"SELECT * from {selectedSurvey}").fetchall()
-        surveyInfo = database.parseSurveyInfo(selectedSurvey)
+        responseData = db.execute(f"SELECT * from {selectedSurvey}").fetchall()     # Fetches all survey data into a 2D array
+        surveyInfo = database.parseSurveyInfo(selectedSurvey)                       # Obtain noOfSections and noOfQuestions(per section) info.
         return render_template("results.html", selectedSurvey = selectedSurvey, responses = responseData, surveyInfo = surveyInfo)
 
     else:                   # User first loads in the results page. Select survey prompt

@@ -8,7 +8,8 @@ def printDatabase():
     for line in db.iterdump():
         print(line)
 
-def parseSurveyInfo(selectedSurvey):
+def parseSurveyInfo(selectedSurvey):        # Returns an array containing noOfSections and noOfQuestions(per section) info.
+                                            # Information is read from the .json file.
 
     basedir = os.path.abspath(os.path.dirname(__file__))
     targetDir = os.path.join(basedir, f"static/surveys/{selectedSurvey}.json")
