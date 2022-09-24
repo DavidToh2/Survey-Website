@@ -6,6 +6,14 @@ app = Flask(__name__)
 
     # FLASK DOES NOT SUPPORT PHP
 
+    # During development, add option FLASK_DEBUG=True or --debug in the terminal to enable debug mode. (Previously FLASK_ENV=development)
+    # This enables an interactive traceback and console display, and more importantly the page refreshes whenever a change is made.
+
+    # This app uses a Python 3.10.6 virtual environment, built using the default venv packge.
+    # To activate the virtual environment, type source venv/bin/activate.
+    # To deactivate the virtual environment, type deactivate.
+    # To output all project dependencies, type pip freeze > requirements.txt.
+
 @app.route("/")
 def index():
     return render_template("index.html")
