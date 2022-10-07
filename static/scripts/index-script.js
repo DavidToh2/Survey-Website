@@ -1,4 +1,36 @@
 
+let slideNo = 1;
+let maxSlides = 3;
+
+        /* SLIDE-RELATED FUNCTIONS */
+
+function formatSlides() {
+    var slides = $(".slide");
+    for (i = 1; i <= maxSlides; i++) {
+        slides.eq(i-1).children(".slide__number").first().html(`${i} / ${maxSlides}`);
+    }
+
+    console.log("Slide formatting finished!")
+}
+
+function showSlide(n) {
+    var slides = $(".slide");
+    for (i = 1; i <= maxSlides; i++) {
+        slides.eq(i-1).hide();
+    }
+    slides.eq(n-1).show();
+    slideNo = n;
+}
+
+function incrementSlide(n) {
+    let newSlideNo = slideNo + n;
+    if (newSlideNo > maxSlides) {
+        newSlideNo -= maxSlides;
+    } else if (newSlideNo < 1) {
+        newSlideNo += maxSlides;
+    }
+    showSlide(newSlideNo);
+}
 
 function file_exists(filepath) {
     $.get(filepath)
@@ -45,3 +77,8 @@ function show_surveys() {
 
     return true;
 }
+
+$(document).ready(function() {
+    formatSlides();
+    showSlide(slideNo);
+});

@@ -4,12 +4,39 @@
 
     <script src="{{ url_for('static', filename='scripts/index-script.js') }}"></script>
 
+
 {% endblock %}
 
 {% block content %}
 
     <div class="section">
-        <h1 style="text-align: center;">Welcome!</h1>
+        <h1 class="colourful-title">The best survey website</h1>
+    </div>
+
+    <div class="section">
+        <div class="slide__container">
+            <div class="slide anim-fadeout" style="display: none;">
+                <div class="slide__number">hahaha</div>
+                <div class="slide__img--overlay"></div>
+                <img class="slide__img" src="https://cdn1.matadornetwork.com/blogs/1/2018/02/Taj-Mahal.jpg">
+                <div class="slide__desc">Taj Mahal</div>
+            </div>
+            <div class="slide anim-fadeout" style="display: none;">
+                <div class="slide__number"></div>
+                <div class="slide__img--overlay"></div>
+                <img class="slide__img" src="https://d36tnp772eyphs.cloudfront.net/blogs/1/2018/02/Christ-the-Redeemer.jpg">
+                <div class="slide__desc">Christ the Redeemer</div>
+            </div>
+            <div class="slide anim-fadeout" style="display: none;">
+                <div class="slide__number"></div>
+                <div class="slide__img--overlay"></div>
+                <img class="slide__img" src="https://cdn1.matadornetwork.com/blogs/1/2016/03/petra-jordan9.jpg">
+                <div class="slide__desc">Petra</div>
+            </div>
+
+            <button class="slide__prev" onclick="incrementSlide(-1)">&#10094;</button>
+            <button class="slide__next" onclick="incrementSlide(1)">&#10095;</button>
+        </div>
     </div>
 
     <div class="section" id="index-about">

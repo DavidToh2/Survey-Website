@@ -26,6 +26,18 @@ To list all remote repositories, type
 To upload changes to GitHub, type
 > `$ git push survey-website master`
 
+To list all files being tracked in the local repository, type
+> `$ git ls-tree --full-tree --name-only -r master`
+
+To remove an existing file from being tracked and delete it, type
+> `$ git rm [filename]`
+
+To remove any already-deleted files from the tracking list, type
+> `$ git add -u`
+
+To check the local repository's status, type
+> `$ git status`
+
 <hr>
 
 ### Environment Set-up
