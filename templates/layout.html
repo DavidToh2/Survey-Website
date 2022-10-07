@@ -8,22 +8,23 @@
         <link href="static/styles.css" rel="stylesheet">
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="{{ url_for('static', filename='scripts/layout-navbar.js') }}"></script>
 
         {% block extraFiles %} {% endblock %}
 
         <title>Survey</title>
     </head>
     <body>
-        <header>
-            <div class="page-header">
-                <div class="header-title">Random Survey</div>
-                <nav class="header-menu">
-                    <div style="width: 100px;"></div>
-                    <a class="button header-menu-button" href="{{ url_for('index') }}">Home</a>
-                    <a class="button header-menu-button" href="{{ url_for('loadResults') }}">View Results</a>
-                </nav>
-            </div>
+        <header class="header">
+            <img src="static/images/icon.png" class="header__icon">
+            <div class="header__title">Random Survey</div>
         </header>
+        <nav class="header__navbar">
+            <a class="button header__button" href="{{ url_for('index') }}">Home</a>
+            <a class="button header__button" href="{{ url_for('loadResults') }}">Take Surveys</a>
+            <a class="button header__button" href="{{ url_for('loadResults') }}">View Results</a>
+            <a style="margin-left: auto;" class="button header__button" href="{{ url_for('loadResults') }}">Contact Us</a>
+        </nav>
         <div class="page-content">
             {% block content %} {% endblock %}
         </div>
