@@ -23,15 +23,13 @@ $(document).ready(function() {
 window.onscroll = function() {
     if (document.body.scrollTop > 90 || document.documentElement.scrollTop > 90) {
         console.log("Displaying tiny header");
+        $(".header").addClass("header--tiny");
         $(".header__icon").addClass("header__icon--tiny");
-        $(".header__title").addClass("header__title--tiny");
         $(".header__button").addClass("header__button--tiny");
-        $(".header__navbar-tablet").addClass("header__navbar-tablet--tiny");
     } else {
         console.log("Displaying big header");
+        $(".header").removeClass("header--tiny");
         $(".header__icon").removeClass("header__icon--tiny");
-        $(".header__title").removeClass("header__title--tiny");
         $(".header__button").removeClass("header__button--tiny");
-        $(".header__navbar-tablet").removeClass("header__navbar-tablet--tiny");
     }
 }

@@ -57,17 +57,23 @@ button, .button {
                 /* HEADER AND MOBILE/TABLET HEADER STYLES */
 
 .header {
-    display: flex;
     position: sticky;
     top: 0;
-    flex-wrap: wrap;
-    align-items: center;
     background-color: var(--purple);
+    height: 70px;
     box-shadow: 0px 10px 13px -7px #000000, 5px 5px 15px 5px rgba(0,0,0,0);
     z-index: 10;
     transition: all 1s ease-in-out;
 
+    display: flex;
+    align-items: center;
+
+    &--tiny {
+        height: 50px;
+    }
+
     @include devices(tablet) {
+        height: 50px;
         align-items: flex-start;
     }
 
@@ -78,13 +84,17 @@ button, .button {
         padding: 5px;
         margin: 5px;
         margin-left: calc(clamp(50px, 16vw, 100px) - 30px);
-        display: block;
-        float: left;
+        display: inline;
+        position: absolute;
+        top: 0px;
         transition: width, height 1s ease-in-out;
 
         &--tiny {
             height: 30px;
-            border: 1px solid var(--purple);
+        }
+
+        @include devices(tablet) {
+            height: 30px;
         }
     }
 
@@ -106,14 +116,17 @@ button, .button {
 
     &__navbar {
         list-style: none;
-        margin: 0;
+        display: flex;
+        margin: 13px 0px;
         padding: 0;
-        margin-left: auto;
         flex-wrap: wrap;
+        margin-left: auto;
+        background-color: var(--purple);
 
         @include devices(tablet) {
-            display: flex;
             flex-direction: column;
+            margin: 0px;
+            margin-left: auto;
         }
     }
 
@@ -122,9 +135,10 @@ button, .button {
         flex: 1;
         display: none;
         color: white;
-        font-size: 50px;
+        font-size: 30px;
         margin-right: 10px;
         cursor: pointer;
+        text-align: right;
         transition: width, height, font-size 1s ease-in-out;
 
         @include devices(tablet) {
@@ -136,10 +150,6 @@ button, .button {
 
             &:focus {
                 background-color: var(--yellow);
-            }
-
-            &--tiny {
-                font-size: 30px;
             }
         }
     }
@@ -193,12 +203,12 @@ button, .button {
                     /* PAGE CONTENT GENERIC STYLES */
 
 h1 {
-    font-size: max(3rem, 5vw);
+    font-size: 3rem;
 }
 
 @include devices(phone) {
     h1 {
-        font-size: 1.5rem;
+        font-size: 2rem;
     }
 }
 
