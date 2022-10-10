@@ -9,10 +9,23 @@
 
 {% block content %}
 
-    <div class="section-container bgimg" style="background-image: url({{ url_for('static', filename='images/happy.jpg') }}); height: 500px;">
+    <div class="section-container bgimg" style="background-image: url({{ url_for('static', filename='images/happy.jpg') }}); height: 1024px;">
         <div class="bgimg--overlay-se"></div>
+        <div class="colourful-title__container">
+            <p class="h1 colourful-title">The best survey website</p>
+        </div>
         <div class="section">
-            <h1 class="colourful-title">The best survey website</h1>
+            <div class="flashy-content">
+                <ul class="h2">
+                    <li style="margin-bottom: 15px;">Top of the mornin' to ya</li>
+                    <li>You saw it here first</li>
+                </ul>
+            </div>
+            <div class="grid-3" id="card-container">
+                
+            </div>
+            <button class="card__prev" onclick="incrementCard(-1)">&#10094;</button>
+            <button class="card__next" onclick="incrementCard(1)">&#10095;</button>
         </div>
     </div>
 
@@ -47,7 +60,6 @@
     <div class="section-container">
     <div class="section" id="index-about">
         <h3>About</h3>
-        <p>Hello there</p> 
         <p>The FitnessGram Pacer Test is a multistage aerobic capacity test that progressively gets more difficult as it continues. The 20 meter pacer test will begin in 30 seconds. Line up at the start. The running speed starts slowly, but gets faster each minute after you hear this signal. [beep] A single lap should be completed each time you hear this sound. [ding] Remember to run in a straight line, and run as long as possible. The second time you fail to complete a lap before the sound, your test is over. The test will begin on the word start. On your mark, get ready, start.</p>
     </div>
     </div>

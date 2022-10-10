@@ -1,8 +1,61 @@
 
-let slideNo = 1;
-let maxSlides = 3;
+let maxSlides = 3, slideNo = 1;
+let maxCards = 5, cardNo = 2;
 
-        /* SLIDE-RELATED FUNCTIONS */
+function showCards(n) {
+
+    let a = modulo(n-1, maxCards), b = n, c = modulo(n+1, maxCards);
+
+    var cardContainer = $("#card-container").eq(0);
+    cardContainer.empty();
+
+    $.getJSON("static/data/cards.json", function(data) {
+
+        var outputHTML = [];
+
+        $.each([a,b,c], function(index, element) {
+            let filepath = data[element - 1].filepath;
+            let t1 = data[element - 1]["testimony-1"];
+            let t2 = data[element - 1]["testimony-2"];
+            let t3 = data[element - 1]["testimony-3"];
+            switch(index) {
+                case 0:
+                    outputHTML.push(`<div class="card card--left">`)
+                break;
+                case 1:
+                    outputHTML.push(`<div class="card card--middle">`)
+                break;
+                case 2:
+                    outputHTML.push(`<div class="card card--right">`)
+                break;
+            }
+            outputHTML.push(
+            `
+                <img class="card__img" src="static/${filepath}">
+                <div class="card__desc">
+                    <ul class="card__list">
+                        <li>${t1}</li>
+                        <li>${t2}</li>
+                        <li>${t3}</li>
+                    </ul>
+                </div>
+            </div>`
+            );
+        })
+
+        $(outputHTML.join("")).appendTo(cardContainer);
+
+    })
+
+    return true;
+}
+
+function incrementCard(n) {
+    cardNo = modulo(cardNo + n, maxCards)
+    showCards(cardNo);
+}
+
+                /* SLIDE-RELATED FUNCTIONS */
 
 function formatSlides() {
     var slides = $(".slide");
@@ -19,17 +72,23 @@ function showSlide(n) {
         slides.eq(i-1).hide();
     }
     slides.eq(n-1).show();
-    slideNo = n;
 }
 
 function incrementSlide(n) {
-    let newSlideNo = slideNo + n;
-    if (newSlideNo > maxSlides) {
-        newSlideNo -= maxSlides;
-    } else if (newSlideNo < 1) {
-        newSlideNo += maxSlides;
+    slideNo = modulo(slideNo + n, maxSlides)
+    showSlide(slideNo);
+}
+
+                /* Basic functions */
+
+function modulo(a, n) {
+    while (a > n) {
+        a -= n;
     }
-    showSlide(newSlideNo);
+    while (a < 1) {
+        a += n;
+    }
+    return a;       /* Returns a value between 1 and n */
 }
 
 function file_exists(filepath) {
@@ -41,6 +100,8 @@ function file_exists(filepath) {
         return false
     })
 }
+
+            /* Deprecated: Show surveys */
 
 function show_surveys() {
 
@@ -60,7 +121,7 @@ function show_surveys() {
 
     var outputHTML = [];
 
-    $.getJSON('static/survey-list.json', function(data) {
+    $.getJSON('static/data/survey-list.json', function(data) {
         $(data).each(function(index, element) {
             outputHTML.push(
                 `<input type="radio" name="survey-select" id="survey-select-${element}" value="${element}">
@@ -81,4 +142,5 @@ function show_surveys() {
 $(document).ready(function() {
     formatSlides();
     showSlide(slideNo);
+    showCards(cardNo);
 });

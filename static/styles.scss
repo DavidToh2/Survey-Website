@@ -4,6 +4,12 @@ Invoke using $variable-name. */
 $beige: rgb(243, 236, 199);
 $beige-transparent: rgba($beige, 0);
 
+$section-margin-left: min(calc(max(96px, 20%) - 91px), 10%);
+/* Below 480px: margin-left = 0px
+480px to 960px: margin-left = 20% - 96px
+Above 960px: margin-left = 10% */
+$section-margin-right: max(5px, calc(20% - 96px));
+
 @mixin devices ($breakpoint) {
     @if $breakpoint == phone {
         @media only screen and (max-width: 768px) {
@@ -35,7 +41,11 @@ These variables are declarative. Invoke using var(--variable-name). */
     font-size: 16px;
     --font-size__title: 1.25rem;
     margin: 0px;
+
+    
+    --picture-width: min(100%, 900px);
 }
+
 body {
     display: block;
     margin: 0px;
@@ -202,13 +212,17 @@ button, .button {
 
                     /* PAGE CONTENT GENERIC STYLES */
 
-h1 {
-    font-size: 3rem;
+.h1 {
+    font-size: 4rem;
+    @include devices(phone) {
+        font-size: 3rem;
+    }
 }
 
-@include devices(phone) {
-    h1 {
-        font-size: 2rem;
+.h2 {
+    font-size: 2.5rem;
+    @include devices(phone) {
+        font-size: 1.7rem;
     }
 }
 
@@ -219,20 +233,43 @@ h1 {
 
 .section-container {
     flex: 100%;
+    position: relative;
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 30px;
+    align-content: flex-start;
 }
 
 .section {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-self: flex-start;
+    margin-left: $section-margin-left;
+    margin-right: $section-margin-right;
+    width: 100%;
+}
+
+.grid-3 {
     flex: 100%;
     position: relative;
-    display: block;
-    margin-left: min(calc(max(96px, 20%) - 96px), 10%);
-    /* Below 480px: margin-left = 0px
-    480px to 960px: margin-left = 20% - 96px
-    Above 960px: margin-left = 10% */
-    margin-right: max(0px, calc(20% - 96px));
+    display: grid;
+    flex-wrap: wrap;
+
+    $col-width : calc(calc(100% - 100px) / 3);
+    grid-template-columns: $col-width $col-width $col-width;
+    grid-auto-rows: min-content;
+    grid-column-gap: 50px;
+    justify-items: center;
+
+    @include devices(tablet) {
+        $col-width : calc(calc(100% - 50px) / 2);
+        grid-template-columns: $col-width $col-width;
+    }
+
+    @include devices(phone) {
+        grid-template-columns: 100%;
+    }
 }
 
 .bgimg {
@@ -240,6 +277,7 @@ h1 {
 
     &--overlay-se {
         position: absolute;
+        top: 0;
         height: 100%;
         width: 100%;
         background-image: linear-gradient(150deg, rgba(255, 255, 255, 1) 30%, rgba(255, 255, 255, 0.7) 100%);
@@ -250,13 +288,96 @@ h1 {
 
 .colourful-title {
     /* https://blog.logrocket.com/five-cool-css-header-styles-with-cross-browser-compatibility/ */
-    position: relative;
-    padding: 10px 0px;
-    width: max-content;
+    
     background-image: conic-gradient(#553c9a, #ee4b2b, #00c2cb, #553c9a);
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
+
+    &__container {
+        height: 100px;
+        margin: 50px 50px 0px 50px;
+        padding: 0px;
+        position: relative;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        word-wrap: break-word; 
+    }
+}
+
+.flashy-content {
+    display: block; 
+    position: relative; 
+    margin-left: auto; 
+    font-weight: 500; 
+    width: 40%; 
+    @include devices(tablet) {
+        width: 70%;
+    }
+    @include devices(phone) {
+        width: 100%;
+    }
+    font-family: 'Open Sans', 'Montserrat', 'Times New Roman';
+}
+
+.card {
+    position: relative;
+    width: 100%;
+    @include devices(phone) {
+        width: 80%;
+    }
+    display: flex;
+    flex-direction: column;
+    background-color: #dddddd;
+
+    &__img {
+        width: 100%;
+        flex: 1 1 50%;
+    }
+
+    &__desc {
+        padding: 5px;
+        width: auto;
+        flex: 1 1 50%;
+    }
+
+    &--middle{
+        display: flex;
+    }
+
+    &--left {
+        display: flex;
+
+        @include devices(phone) {
+            display: none;
+        }
+    }
+
+    &--right {
+        display: flex;
+
+        @include devices(tablet) {
+            display: none;
+        }
+    }
+
+    &__prev, &__next {
+        position: absolute;
+        cursor: pointer;
+        bottom: 25%;
+        color: black;
+        font-size: 48px;
+        font-weight: 500;
+        background-color: white;
+        transition: 0.6s ease;
+        z-index: 3;
+        border: 0px;
+    }
+
+    &__next {
+        right: 0px;
+    }
 }
 
 .slide {
@@ -264,7 +385,6 @@ h1 {
     position: relative;
     width: 100%;
     font-family: 'Verdana', sans-serif;
-    --picture-width: min(100%, 900px);
 
     &__container {
         position: relative;
@@ -319,7 +439,7 @@ h1 {
     }
 
     &__next {
-        right: 0;
+        left: calc(var(--picture-width) - 24px);
     }
 
 }
