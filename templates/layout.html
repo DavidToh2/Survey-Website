@@ -15,16 +15,17 @@
         <title>Survey</title>
     </head>
     <body>
-        <header class="header">
+        <div class="header">
             <img src="static/images/icon.png" class="header__icon">
             <div class="header__title">Random Survey</div>
-        </header>
-        <nav class="header__navbar">
-            <a class="button header__button" href="{{ url_for('index') }}">Home</a>
-            <a class="button header__button" href="{{ url_for('loadResults') }}">Take Surveys</a>
-            <a class="button header__button" href="{{ url_for('loadResults') }}">View Results</a>
-            <a style="margin-left: auto;" class="button header__button" href="{{ url_for('loadResults') }}">Contact Us</a>
-        </nav>
+            <ul class="header__navbar">
+                <li class="button header__button"><a href="{{ url_for('index') }}">Home</a></li>
+                <li class="button header__button"><a href="{{ url_for('loadResults') }}">Surveys</a></li>
+                <li class="button header__button"><a href="{{ url_for('loadResults') }}">Results</a></li>
+                <li class="button header__button"><a href="{{ url_for('loadResults') }}">Contribute</a></li>
+                <li class="button header__button"><a href="{{ url_for('loadResults') }}" style="margin-right: 100px;">Contact Us</a></li>
+            </ul>
+        </div>
         <div class="page-content">
             {% block content %} {% endblock %}
         </div>

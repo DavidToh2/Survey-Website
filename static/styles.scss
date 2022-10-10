@@ -1,10 +1,16 @@
+
+/* SASS variables. These have to be defined globally and are imperative. 
+Invoke using $variable-name. */
+$beige: rgb(243, 236, 199);
+$beige-transparent: rgba($beige, 0);
+
+/* CSS variables. These were added pretty recently, and are defined in :root (i.e. html).
+These variables are declarative. Invoke using var(--variable-name). */
 :root {
     --purple: #2c0048;
     --dark-blue: #0c125b;
     --cyan: #028f94;
     --yellow: #6b7203;
-    --beige: rgb(243, 236, 199);
-    --beige-transparent: rgba(243, 236, 199, 0);
     --font-family: "Georgia", sans-serif;
     font-size: 16px;
     --font-size__title: 1.25rem;
@@ -12,6 +18,7 @@
     margin: 0px
 }
 body {
+    display: block;
     margin: 0px;
 }
 
@@ -30,47 +37,66 @@ button, .button {
 
 .header {
     display: flex;
+    position: sticky;
+    top: 0;
     flex-wrap: wrap;
     align-items: center;
-    background-color: var(--dark-blue);
+    background-color: var(--purple);
+    box-shadow: 0px 10px 13px -7px #000000, 5px 5px 15px 5px rgba(0,0,0,0);
+    z-index: 10;
+    transition: all 1s ease-in-out;
 
     &__icon {
         object-fit: cover;
-        width: clamp(30px, 10vw, 90px);
+        height: clamp(30px, 8vw, 60px);
         border-radius: 10%;
-        border: 3px solid var(--dark-blue);
-        position: relative;
-        left: min(60px, 10vw);
+        border: 3px solid var(--purple);
         margin: 15px;
+        display: block;
+        float: left;
+        transition: all 1s ease-in-out;
+
+        &--tiny {
+            height: clamp(15px, 4vw, 30px);
+            border: 1px solid var(--purple);
+        }
     }
 
     &__title {
-        flex: 1;
         text-align: center;
-        font-size: min(6vw, 40px);
+        font-size: clamp(15px, 4vw, 30px);
         font-weight: 700;
         color: white;
-        padding: 22px 18px;
+        padding: 22px clamp(15px, 4vw, 30px);;
+        display: block;
+        float: left;
+        transition: all 1s ease-in-out;
+
+        &--tiny {
+            font-size: clamp(7.5px, 2vw, 15px);
+            padding: 14px clamp(7.5px, 2vw, 15px);
+        }
     }
 
     &__navbar {
-        width: 100%;
-        display: flex;
-        position: sticky;
-        top: 0;
+        list-style: none;
+        flex: 1;
+        background-color: var(--purple);
+        display: block;
+        float: left;
+    }
+
+    &__navbar a {
         font-size: 1rem;
         font-weight: 500;
-        background-color: var(--purple);
         color: white;
-        box-shadow: 0px 10px 13px -7px #000000, 5px 5px 15px 5px rgba(0,0,0,0);
-        z-index: 10;
+        text-decoration: none;
     }
 
     &__button {
         background-color: var(--purple);
-        color: white;
-        text-decoration: none;
-        padding: 14px clamp(16px, 2.5vw, 48px);
+        padding: 14px clamp(12px, 2vw, 24px);
+        float: right;
 
         &--active {
             background-color: var(--cyan);
@@ -130,7 +156,7 @@ button, .button {
             height: 100%;
             width: var(--picture-width);
             z-index: 1;
-            background-image: linear-gradient(to bottom, var(--beige), var(--beige-transparent) 25%, var(--beige-transparent) 75%, var(--beige));
+            background-image: linear-gradient(to bottom, $beige, $beige-transparent 25%, $beige-transparent 75%, $beige 100%);
         }
     }
 
