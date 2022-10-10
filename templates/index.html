@@ -9,10 +9,14 @@
 
 {% block content %}
 
-    <div class="section">
-        <h1 class="colourful-title">The best survey website</h1>
+    <div class="section-container bgimg" style="background-image: url({{ url_for('static', filename='images/happy.jpg') }}); height: 500px;">
+        <div class="bgimg--overlay-se"></div>
+        <div class="section">
+            <h1 class="colourful-title">The best survey website</h1>
+        </div>
     </div>
 
+    <div class="section-container">
     <div class="section">
         <div class="slide__container">
             <div class="slide anim-fadeout" style="display: none;">
@@ -38,23 +42,30 @@
             <button class="slide__next" onclick="incrementSlide(1)">&#10095;</button>
         </div>
     </div>
+    </div>
 
+    <div class="section-container">
     <div class="section" id="index-about">
         <h3>About</h3>
         <p>Hello there</p> 
         <p>The FitnessGram Pacer Test is a multistage aerobic capacity test that progressively gets more difficult as it continues. The 20 meter pacer test will begin in 30 seconds. Line up at the start. The running speed starts slowly, but gets faster each minute after you hear this signal. [beep] A single lap should be completed each time you hear this sound. [ding] Remember to run in a straight line, and run as long as possible. The second time you fail to complete a lap before the sound, your test is over. The test will begin on the word start. On your mark, get ready, start.</p>
     </div>
+    </div>
 
+    <div class="section-container">
+    <div class="section">
     <form action="/survey" method="POST">
-        <div class="section" id="index-name">
+        <div id="index-name">
             <h3>Enter your name here:</h3>
             <input autocomplete="off" autofocus name="username" placeholder="Name" type="text" id="username-input">
             <button onclick="show_surveys()" type="button">Show Surveys</button>
         </div>
 
-        <div class="section" id="index-select-survey">
+        <div id="index-select-survey">
             <!-- index.html uses JavaScript, index-script.js, to display the list of surveys.-->
         </div>
     </form>
+    </div>
+    </div>
 
 {% endblock %}

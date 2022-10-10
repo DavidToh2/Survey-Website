@@ -4,6 +4,26 @@ Invoke using $variable-name. */
 $beige: rgb(243, 236, 199);
 $beige-transparent: rgba($beige, 0);
 
+@mixin devices ($breakpoint) {
+    @if $breakpoint == phone {
+        @media only screen and (max-width: 768px) {
+            @content;
+        }
+    }
+
+    @if $breakpoint == tablet {
+        @media only screen and (max-width: 1024px) {
+            @content;
+        }
+    }
+}
+
+/* $phone-screen: 480px;
+$tablet-screen: 768px;
+$laptop-sm: 1024px;
+$laptop-md: 1440px;
+$laptop-lg: 1920px; */
+
 /* CSS variables. These were added pretty recently, and are defined in :root (i.e. html).
 These variables are declarative. Invoke using var(--variable-name). */
 :root {
@@ -14,8 +34,7 @@ These variables are declarative. Invoke using var(--variable-name). */
     --font-family: "Georgia", sans-serif;
     font-size: 16px;
     --font-size__title: 1.25rem;
-    --picture-width: min(100%, 900px);
-    margin: 0px
+    margin: 0px;
 }
 body {
     display: block;
@@ -35,6 +54,8 @@ button, .button {
     padding: 5px;
 }
 
+                /* HEADER AND MOBILE/TABLET HEADER STYLES */
+
 .header {
     display: flex;
     position: sticky;
@@ -46,23 +67,28 @@ button, .button {
     z-index: 10;
     transition: all 1s ease-in-out;
 
+    @include devices(tablet) {
+        align-items: flex-start;
+    }
+
     &__icon {
         object-fit: cover;
-        height: clamp(30px, 8vw, 60px);
-        border-radius: 10%;
-        border: 3px solid var(--purple);
-        margin: 15px;
+        height: 50px;
+        /* border-radius: 10%; */
+        padding: 5px;
+        margin: 5px;
+        margin-left: calc(clamp(50px, 16vw, 100px) - 30px);
         display: block;
         float: left;
-        transition: all 1s ease-in-out;
+        transition: width, height 1s ease-in-out;
 
         &--tiny {
-            height: clamp(15px, 4vw, 30px);
+            height: 30px;
             border: 1px solid var(--purple);
         }
     }
 
-    &__title {
+    /* &__title {
         text-align: center;
         font-size: clamp(15px, 4vw, 30px);
         font-weight: 700;
@@ -76,27 +102,60 @@ button, .button {
             font-size: clamp(7.5px, 2vw, 15px);
             padding: 14px clamp(7.5px, 2vw, 15px);
         }
-    }
+    } */
 
     &__navbar {
         list-style: none;
+        margin: 0;
+        padding: 0;
+        margin-left: auto;
+        flex-wrap: wrap;
+
+        @include devices(tablet) {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+
+    &__navbar-tablet {
+        margin: 0px 10px;
         flex: 1;
-        background-color: var(--purple);
-        display: block;
-        float: left;
+        display: none;
+        color: white;
+        font-size: 50px;
+        margin-right: 10px;
+        cursor: pointer;
+        transition: width, height, font-size 1s ease-in-out;
+
+        @include devices(tablet) {
+            display: block;
+
+            &:hover {
+                background-color: var(--yellow);
+            }
+
+            &:focus {
+                background-color: var(--yellow);
+            }
+
+            &--tiny {
+                font-size: 30px;
+            }
+        }
     }
 
     &__navbar a {
-        font-size: 1rem;
         font-weight: 500;
         color: white;
         text-decoration: none;
+        transition: width, height, font-size 1s ease-in-out;
     }
 
     &__button {
-        background-color: var(--purple);
-        padding: 14px clamp(12px, 2vw, 24px);
-        float: right;
+        padding: 10px clamp(12px, 2vw, 24px);
+        font-size: 1.25rem;
+        display: inline;
+        cursor: pointer;
 
         &--active {
             background-color: var(--cyan);
@@ -105,6 +164,41 @@ button, .button {
         &:hover {
             background-color: var(--yellow);
         }
+
+        &--tiny {
+            font-size: 1rem;
+            padding: 6px clamp(12px, 2vw, 24px);
+        }
+
+        @include devices(tablet) {
+            display: none;
+            padding: 10px 60px 10px 60px;
+            margin-right: 10px;
+
+            &-tablet--visible {
+                display: block;
+            }
+        }
+    }
+
+    &__padding {
+        display: inline;
+        margin: 1px 50px;
+        @include devices(tablet) {
+            display: none;
+        }
+    }
+}
+
+                    /* PAGE CONTENT GENERIC STYLES */
+
+h1 {
+    font-size: max(3rem, 5vw);
+}
+
+@include devices(phone) {
+    h1 {
+        font-size: 1.5rem;
     }
 }
 
@@ -113,9 +207,15 @@ button, .button {
     flex-wrap: wrap;
 }
 
+.section-container {
+    flex: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
+
 .section {
     flex: 100%;
-    background-color: var(--beige);
     position: relative;
     display: block;
     margin-left: min(calc(max(96px, 20%) - 96px), 10%);
@@ -125,8 +225,23 @@ button, .button {
     margin-right: max(0px, calc(20% - 96px));
 }
 
+.bgimg {
+    background-size: cover;
+
+    &--overlay-se {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        background-image: linear-gradient(150deg, rgba(255, 255, 255, 1) 30%, rgba(255, 255, 255, 0.7) 100%);
+    }
+}
+
+                    /* INDEX PAGE STYLES */
+
 .colourful-title {
     /* https://blog.logrocket.com/five-cool-css-header-styles-with-cross-browser-compatibility/ */
+    position: relative;
+    padding: 10px 0px;
     width: max-content;
     background-image: conic-gradient(#553c9a, #ee4b2b, #00c2cb, #553c9a);
     background-clip: text;
@@ -139,6 +254,7 @@ button, .button {
     position: relative;
     width: 100%;
     font-family: 'Verdana', sans-serif;
+    --picture-width: min(100%, 900px);
 
     &__container {
         position: relative;

@@ -16,14 +16,16 @@
     </head>
     <body>
         <div class="header">
-            <img src="static/images/icon.png" class="header__icon">
-            <div class="header__title">Random Survey</div>
+            <img src="{{ url_for('static', filename='images/icon.png') }}" class="header__icon">
+            <!-- <div class="header__title">Random Survey</div> -->
             <ul class="header__navbar">
+                <li class="button header__navbar-tablet" onclick="showTabletMenu()">&#9776;</li>
                 <li class="button header__button"><a href="{{ url_for('index') }}">Home</a></li>
                 <li class="button header__button"><a href="{{ url_for('loadResults') }}">Surveys</a></li>
                 <li class="button header__button"><a href="{{ url_for('loadResults') }}">Results</a></li>
                 <li class="button header__button"><a href="{{ url_for('loadResults') }}">Contribute</a></li>
-                <li class="button header__button"><a href="{{ url_for('loadResults') }}" style="margin-right: 100px;">Contact Us</a></li>
+                <li class="button header__button"><a id="contact" href="{{ url_for('loadResults') }}">Contact Us</a></li>
+                <li class="header__padding"></li>
             </ul>
         </div>
         <div class="page-content">
