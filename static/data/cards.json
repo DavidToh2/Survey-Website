@@ -1,0 +1,32 @@
+[
+    {
+        "filepath": "images/characters/spongebob.png",
+        "testimony-1": "Trusted by over 1 Spongebob!",
+        "testimony-2": "He loves filling his holes with our surveys!",
+        "testimony-3": "Squarepants? More like...Squarespace, the best website-creating service"
+    },
+    {
+        "filepath": "images/characters/krabs.png",
+        "testimony-1": "Seal of Krabs' Approval!",
+        "testimony-2": "Attracts queues longer than Krabby Patty!",
+        "testimony-3": "Claw-snappin' good!"
+    },
+    {
+        "filepath": "images/characters/patrick.png",
+        "testimony-1": "Five stars!",
+        "testimony-2": "Our surveys leave Patrick pink with delight!",
+        "testimony-3": "Why be the sidekick when you can be the main character!"
+    },
+    {
+        "filepath": "images/characters/plankton.jpeg",
+        "testimony-1": "Rated 5/5 by 99.9% of planktons",
+        "testimony-2": "Thats a LOT of planktons!",
+        "testimony-3": "Support for oppressed food-chain communities!"
+    },
+    {
+        "filepath": "images/characters/squidward.png",
+        "testimony-1": "Our surveys cured Squidward's depression!",
+        "testimony-2": "Not enough tentacles to do our surveys!",
+        "testimony-3": "Turn that frown upside down with our surveys!"
+    }
+]
