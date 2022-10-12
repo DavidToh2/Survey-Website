@@ -43,6 +43,10 @@ function showCards(n) {
             );
         })
 
+        outputHTML.push(`
+        <button class="card__prev" onclick="incrementCard(-1)">&#10094;</button>
+        <button class="card__next" onclick="incrementCard(1)">&#10095;</button>`)
+
         $(outputHTML.join("")).appendTo(cardContainer);
 
     })
