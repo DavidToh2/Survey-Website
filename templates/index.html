@@ -4,7 +4,6 @@
 
     <script src="{{ url_for('static', filename='scripts/index-script.js') }}"></script>
 
-
 {% endblock %}
 
 {% block content %}
@@ -16,7 +15,7 @@
         </div>
         <div class="section">
             <div class="flashy-button__container"> 
-                <p class="flashy-button h2">Take our surveys today!</p>
+                <a class="flashy-button h2" href="{{ url_for('selectSurvey') }}">Take our surveys today!</a>
             </div>
             <div class="flashy-content">
                 <ul class="h2">
@@ -25,7 +24,18 @@
                 </ul>
             </div>
             <div class="grid-3" id="card-container">
-                
+
+                <div class="card card--left">
+                    <img class="card__img" src="static/${filepath}">
+                    <div class="card__desc">
+                        <ul class="card__list">
+                            <li>${t1}</li>
+                            <li>${t2}</li>
+                            <li>${t3}</li>
+                        </ul>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

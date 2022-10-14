@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block extraFiles %} <script src="{{ url_for('static', filename='scripts/selection-script.js') }}"></script> {% endblock %}
+
+{% block content %}
+
+    <div class="section-container">
+        <div class="section" style="margin-top: 100px";>
+            <div class="grid-3" id="surveys-container">
+                
+                <div class="card card--left">
+                    <img class="card__img" src="static/${filepath}">
+                        <div class="card__desc">
+                            Survey 1
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

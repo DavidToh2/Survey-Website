@@ -1,3 +1,14 @@
 [
-    "questions"
+    {
+        "survey-name": "questions",
+        "image-name": "R.jpg",
+        "survey-title": "Questions",
+        "survey-description": "Some questions about yourself!"
+    },
+    {
+        "survey-name": "personality",
+        "image-name": "V.jpg",
+        "survey-title": "Personality Survey",
+        "survey-description": "Pseudoscience-y stuff :)"
+    }
 ]

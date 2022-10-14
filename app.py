@@ -18,8 +18,11 @@ app = Flask(__name__)
 def index():
     return render_template("index.html")
 
+@app.route("/survey")
+def selectSurvey():
+    return render_template("selection.html")
 
-@app.route("/survey", methods=["POST"])
+@app.route("/survey/<selectedSurvey>", methods=["POST"])
 def loadSurvey():
 
     username = request.form.get("username")

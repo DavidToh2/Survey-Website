@@ -27,7 +27,7 @@ def parseSurveyInfo(selectedSurvey):        # Returns an array containing noOfSe
 def doSurveyList(option, targetSurvey = None):
 
     basedir = os.path.abspath(os.path.dirname(__file__))
-    targetDir = os.path.join(basedir, f"static/survey-list.json")
+    targetDir = os.path.join(basedir, f"static/data/survey-list.json")
     with open(targetDir, "r") as f:
         surveyList = json.load(f)
 

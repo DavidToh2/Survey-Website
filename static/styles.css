@@ -327,8 +327,6 @@ button, .button {
 
 .flashy-button {
   font-family: "Impact", Cambria;
-  padding: 20px;
-  background-color: rgb(3, 116, 50);
   color: white;
 }
 .flashy-button__container {
@@ -338,6 +336,8 @@ button, .button {
   margin: 0px 105px 0px auto;
   align-self: center;
   text-align: center;
+  padding: 20px;
+  background-color: rgb(3, 116, 50);
 }
 @media only screen and (max-width: 1024px) {
   .flashy-button__container {
