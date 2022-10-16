@@ -8,11 +8,12 @@ def printDatabase():
     for line in db.iterdump():
         print(line)
 
-def parseSurveyInfo(selectedSurvey):        # Returns an array containing noOfSections and noOfQuestions(per section) info.
-                                            # Information is read from the .json file.
+            # Returns an array containing noOfSections and noOfQuestions(per section) info.
+            # Information is read from the .json file.
 
-    basedir = os.path.abspath(os.path.dirname(__file__))
-    targetDir = os.path.join(basedir, f"static/surveys/{selectedSurvey}.json")
+def parseSurveyInfo(selectedSurvey):        
+
+    targetDir = getDir("static/surveys/{selectedSurvey}.json")
 
     surveyFile = open(targetDir)
     survey = json.load(surveyFile)
@@ -24,10 +25,11 @@ def parseSurveyInfo(selectedSurvey):        # Returns an array containing noOfSe
 
     return output   # [ # SECTIONS, # QNS (S1), # QNS (S2), # QNS (S3), etc. ]
 
+            # Add, remove, or list all surveys
+
 def doSurveyList(option, targetSurvey = None):
 
-    basedir = os.path.abspath(os.path.dirname(__file__))
-    targetDir = os.path.join(basedir, f"static/data/survey-list.json")
+    targetDir = getDir("static/data/survey-list.json")
     with open(targetDir, "r") as f:
         surveyList = json.load(f)
 
@@ -52,6 +54,8 @@ def doSurveyList(option, targetSurvey = None):
 
         case 'l':       # List all surveys
             return surveyList
+
+                # Create survey entry in table
 
 def createTable(selectedSurvey):
 
@@ -90,3 +94,8 @@ def createTable(selectedSurvey):
 
     else:
         return True
+
+def getDir(path):
+
+    basedir = os.path.abspath(os.path.dirname(__file__))
+    return os.path.join(basedir, path)

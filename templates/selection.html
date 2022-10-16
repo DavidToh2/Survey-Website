@@ -6,15 +6,27 @@
 
     <div class="section-container">
         <div class="section" style="margin-top: 100px";>
+            <a href="{{ url_for('loadSurvey', selectedSurvey = 'questions') }}">Test</a>
             <div class="grid-3" id="surveys-container">
+
+                <div style="display: none;" id="noOfSurveys">{{ surveyList|length }}</div>
+
+                {% if surveyList %}
+                {% for survey in surveyList %}
                 
-                <div class="card card--left">
-                    <img class="card__img" src="static/${filepath}">
-                        <div class="card__desc">
-                            Survey 1
-                        </div>
-                    </div>
+                <div class="card" id="card-{{ loop.index }}">
+                    <img class="card__img" src="/static/images/survey-icon/{{ survey['image-name'] }}">
+                    <a class="card__desc" href="{{ url_for('loadSurvey', selectedSurvey = survey['survey-name'] ) }}">
+                        <p class="card__survey-title">{{ survey["survey-title"] }}</p>
+                        <p class="card__survey-description">{{ survey["survey-description"] }}</p>
+                    </a>
                 </div>
+                
+                {% endfor %}
+                {% endif %}
+
+                <button class="card__prev" onclick="incrementSurvey(-1)">&#10094;</button>
+                <button class="card__next" onclick="incrementSurvey(1)">&#10095;</button>
 
             </div>
         </div>

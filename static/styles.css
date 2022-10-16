@@ -43,6 +43,11 @@ button, .button {
   text-align: center;
   padding: 5px;
 }
+button__text, .button__text {
+  font-family: "Impact", Cambria;
+  color: white;
+  text-decoration: none;
+}
 
 /* HEADER AND MOBILE/TABLET HEADER STYLES */
 .header {
@@ -141,7 +146,6 @@ button, .button {
 .header__navbar a {
   font-weight: 500;
   color: white;
-  text-decoration: none;
   transition: width, height, font-size 1s ease-in-out;
 }
 .header__button {
@@ -326,27 +330,23 @@ button, .button {
 }
 
 .flashy-button {
-  font-family: "Impact", Cambria;
-  color: white;
-}
-.flashy-button__container {
   display: inline;
   position: relative;
   width: 350px;
   margin: 0px 105px 0px auto;
+  padding: 30px;
   align-self: center;
   text-align: center;
-  padding: 20px;
   background-color: rgb(3, 116, 50);
 }
 @media only screen and (max-width: 1024px) {
-  .flashy-button__container {
+  .flashy-button {
     margin-left: 0px;
     width: 500px;
   }
 }
 @media only screen and (max-width: 768px) {
-  .flashy-button__container {
+  .flashy-button {
     margin-left: 0px;
     width: 300px;
   }
@@ -355,7 +355,7 @@ button, .button {
 .card {
   position: relative;
   width: 100%;
-  display: flex;
+  display: none;
   flex-direction: column;
   background-color: #dddddd;
 }
@@ -371,23 +371,40 @@ button, .button {
 .card__desc {
   padding: 5px;
   width: auto;
+  text-decoration: none;
   flex: 1 1 50%;
 }
 .card--middle {
   display: flex;
+  grid-row: 1/1;
+  grid-column: 2/2;
+}
+@media only screen and (max-width: 1024px) {
+  .card--middle {
+    grid-column: 1/1;
+  }
 }
 .card--left {
   display: flex;
+  grid-row: 1/1;
+  grid-column: 1/1;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 1024px) {
   .card--left {
     display: none;
   }
 }
 .card--right {
   display: flex;
+  grid-row: 1/1;
+  grid-column: 3/3;
 }
 @media only screen and (max-width: 1024px) {
+  .card--right {
+    grid-column: 2/2;
+  }
+}
+@media only screen and (max-width: 768px) {
   .card--right {
     display: none;
   }
@@ -409,6 +426,14 @@ button, .button {
 }
 .card__next {
   right: 0px;
+}
+.card__survey-title {
+  color: #222222;
+  font-size: 1.25rem;
+}
+.card__survey-description {
+  color: black;
+  font-size: 1rem;
 }
 
 .slide {

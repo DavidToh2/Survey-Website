@@ -1,72 +1,38 @@
 var currentSurveyIndex = 1;
+var noOfSurveys;
 
 function initialiseSurveySelection() {
-
-    $.getJSON("static/data/survey-list.json", function(data) {
-        let noOfSurveys = data.length;
-        sessionStorage.setItem("noOfSurveys", noOfSurveys);
-        loadSurveySelection(1, noOfSurveys);
-    })
-
+    if (noOfSurveys == 1) {
+        displaySurveys([1]);
+    } else if (noOfSurveys == 2) {
+        displaySurveys([1, 2]);
+    } else {
+        displaySurveys([1, 2, noOfSurveys]);
+    }
 }
 
 function incrementSurvey(n) {
-    let noOfSurveys = sessionStorage.getItem("noOfSurveys");
-    currentSurveyIndex = modulo(currentSurveyIndex + n, noOfSurveys);
-    loadSurveySelection(currentSurveyIndex, noOfSurveys);
+    currentSurveyIndex += n;
+    let a = modulo(currentSurveyIndex, noOfSurveys);
+    let b = modulo(currentSurveyIndex + 1, noOfSurveys);
+    let c = modulo(currentSurveyIndex - 1, noOfSurveys);
+    displaySurveys([a, b, c]);
 }
 
-function loadSurveySelection(a, noOfSurveys) {
-
-    var surveyContainer = $("#surveys-container");
-    surveyContainer.empty();
-
-    $.getJSON("static/data/survey-list.json", function(data) {
-        var outputHTML = [];
-        var arr1 = [a];
-
-        if (noOfSurveys > 1) {
-            arr1.push(modulo(a+1, noOfSurveys));
-            if (noOfSurveys > 2) {
-                arr1.push(modulo(a-1, noOfSurveys));
-            }
-        }
-
-        console.log(arr1);
-
-        $.each(arr1, function(index, element) {
-            let e = element - 1;
-            switch(index) {
-                case 0:
-                    var cardLocation = "middle"; break;
-                case 1:
-                    var cardLocation = "right"; break;
-                case 2:
-                    var cardLocation = "left"; break;
-            }
-            console.log(data[e]);
-            outputHTML.push(
-                `<div class="card card--${cardLocation}">
-                    <img class="card__img" src="/static/images/survey-icon/${data[e]["image-name"]}">
-                    <a href="{{ url_for('loadSurvey', selectedSurvey = ${data[e]["survey-name"]}) }}">
-                        <div class="card__desc">
-                            <p class="survey-title">${data[e]["survey-title"]}</p>
-                            <p class="survey-description">${data[e]["survey-description"]}</p>
-                        </div>
-                    </a>
-                </div>`
-            )
-            
-        })
-
-        outputHTML.push(`
-        <button class="card__prev" onclick="incrementSurvey(-1)">&#10094;</button>
-        <button class="card__next" onclick="incrementSurvey(1)">&#10095;</button>`
-        )
-
-        $(outputHTML.join("")).appendTo(surveyContainer);
-
+function displaySurveys(arr) {
+    var cards = $("#surveys-container").children(".card");
+    cards.each(function(index, element) {
+        $(this).removeClass("card--left card--middle card--right");
     })
+    console.log(arr);
+    console.log(noOfSurveys);
+    $(cards[arr[0] - 1]).addClass("card--middle");
+    if (noOfSurveys > 1) {
+        $(cards[arr[1] - 1]).addClass("card--right");
+        if (noOfSurveys > 2) {
+            $(cards[arr[2] - 1]).addClass("card--left");
+        }
+    }
 }
 
 function modulo(a, n) {
@@ -81,6 +47,7 @@ function modulo(a, n) {
 
 $(document).ready(function() {
 
+    noOfSurveys = $("#noOfSurveys").html();
     initialiseSurveySelection();
     console.log("Survey selection page build complete!");
 

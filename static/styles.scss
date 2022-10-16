@@ -69,6 +69,12 @@ body {
 button, .button {
     text-align: center;
     padding: 5px;
+
+    &__text {
+        font-family: 'Impact', Cambria;
+        color: white;
+        text-decoration: none;
+    }
 }
 
                 /* HEADER AND MOBILE/TABLET HEADER STYLES */
@@ -174,7 +180,6 @@ button, .button {
     &__navbar a {
         font-weight: 500;
         color: white;
-        text-decoration: none;
         transition: width, height, font-size 1s ease-in-out;
     }
 
@@ -354,30 +359,24 @@ button, .button {
 
 .flashy-button {
 
-    font-family: 'Impact', Cambria;
-    color: white;
+    display: inline;
+    position: relative;
+    width: 350px;
+    margin: 0px 105px 0px auto;
+    padding: 30px;
+    align-self: center;
+    text-align: center;
+    background-color:rgb(3, 116, 50);
 
-    &__container {
-
-        display: inline;
-        position: relative;
-        width: 350px;
-        margin: 0px 105px 0px auto;
-        align-self: center;
-        text-align: center;
-        padding: 20px;
-        background-color:rgb(3, 116, 50);
-
-        @include devices(tablet) {
-            margin-left: 0px;
-            width: 500px;
-        }
-        @include devices(phone) {
-            margin-left: 0px;
-            width: 300px;
-        }
-
+    @include devices(tablet) {
+        margin-left: 0px;
+        width: 500px;
     }
+    @include devices(phone) {
+        margin-left: 0px;
+        width: 300px;
+    }
+    
 }
 
 .card {
@@ -386,7 +385,7 @@ button, .button {
     @include devices(phone) {
         width: 80%;
     }
-    display: flex;
+    display: none;
     flex-direction: column;
     background-color: #dddddd;
 
@@ -398,25 +397,36 @@ button, .button {
     &__desc {
         padding: 5px;
         width: auto;
+        text-decoration: none;
         flex: 1 1 50%;
     }
 
     &--middle{
         display: flex;
+        grid-row: 1 / 1;
+        grid-column: 2 / 2;
+        @include devices(tablet) {
+            grid-column: 1 / 1;
+        }
     }
 
     &--left {
         display: flex;
-
-        @include devices(phone) {
+        grid-row: 1 / 1;
+        grid-column: 1 / 1;
+        @include devices(tablet) {
             display: none;
         }
     }
 
     &--right {
         display: flex;
-
+        grid-row: 1 / 1;
+        grid-column: 3 / 3;
         @include devices(tablet) {
+            grid-column: 2 / 2;
+        }
+        @include devices(phone) {
             display: none;
         }
     }
@@ -440,6 +450,18 @@ button, .button {
 
     &__next {
         right: 0px;
+    }
+
+    &__survey {
+        &-title {
+            color: #222222;
+            font-size: 1.25rem;
+        }
+
+        &-description {
+            color: black;
+            font-size: 1rem;
+        }
     }
 }
 

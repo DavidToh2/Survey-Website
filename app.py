@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 import sqlite3
-import database
+import auxiliaries
+import json
 
 app = Flask(__name__)
 
@@ -20,16 +21,19 @@ def index():
 
 @app.route("/survey")
 def selectSurvey():
-    return render_template("selection.html")
 
-@app.route("/survey/<selectedSurvey>", methods=["POST"])
+    surveyListRaw = auxiliaries.getDir("static/data/survey-list.json")
+    surveyList = json.load(open(surveyListRaw, "r"))
+
+    return render_template("selection.html", surveyList = surveyList)
+
+@app.route("/survey/<selectedSurvey>", methods=["GET"])
 def loadSurvey():
 
-    username = request.form.get("username")
-    selectedSurvey = request.form.get("survey-select")
+    selectedSurvey = request.args.get("selectedSurvey")
     if selectedSurvey == None:
         return redirect(url_for('index'))
-    return render_template("survey.html", userName = username, selectedSurvey = selectedSurvey)
+    return render_template("survey.html", selectedSurvey = selectedSurvey)
 
 
 @app.route("/thank-you", methods=["POST"])
@@ -60,7 +64,7 @@ def submitSurvey():
 
         # Checks if SQL table already exists: if not, then creates table
 
-    database.createTable(selectedSurvey)
+    auxiliaries.createTable(selectedSurvey)
 
     db = sqlite3.connect("results.db")
 
@@ -82,10 +86,10 @@ def loadResults():
 
         db = sqlite3.connect("results.db")
         responseData = db.execute(f"SELECT * from {selectedSurvey}").fetchall()     # Fetches all survey data into a 2D array
-        surveyInfo = database.parseSurveyInfo(selectedSurvey)                       # Obtain noOfSections and noOfQuestions(per section) info.
+        surveyInfo = auxiliaries.parseSurveyInfo(selectedSurvey)                       # Obtain noOfSections and noOfQuestions(per section) info.
         return render_template("results.html", selectedSurvey = selectedSurvey, responses = responseData, surveyInfo = surveyInfo)
 
     else:                   # User first loads in the results page. Select survey prompt
 
-        surveyList = database.doSurveyList('l')
+        surveyList = auxiliaries.doSurveyList('l')
         return render_template("results.html", surveyList = surveyList)
