@@ -10,5 +10,11 @@
         "image-name": "V.jpg",
         "survey-title": "Personality Survey",
         "survey-description": "Pseudoscience-y stuff :)"
+    },
+    {
+        "survey-name": "capitals",
+        "image-name": "N.png",
+        "survey-title": "Do You Know Your Capitals?",
+        "survey-description": "Capital letters are some of the hardest things to master in the alphabet!"
     }
 ]

@@ -261,46 +261,23 @@ button, .button {
     flex-wrap: wrap;
 }
 
-.section-container {
-    flex: 100%;
-    position: relative;
-    display: inline-flex;
-    flex-wrap: wrap;
-    margin-bottom: 30px;
-    align-content: flex-start;
-    min-height: 100%;
-}
-
 .section {
     position: relative;
-    display: flex;
-    flex-wrap: wrap;
+    display: block;
     align-self: flex-start;
-    align-content: flex-start;
     margin-left: $section-margin-left;
     margin-right: $section-margin-right;
     width: 100%;
-    min-height: 100%;
-}
+    transition: width 1s ease-in-out;
 
-.grid-3 {
-    flex: 100%;
-    position: relative;
-    display: grid;
-
-    $col-width : calc(calc(100% - 100px) / 3);
-    grid-template-columns: $col-width $col-width $col-width;
-    grid-auto-rows: min-content;
-    grid-column-gap: 50px;
-    justify-items: center;
-
-    @include devices(tablet) {
-        $col-width : calc(calc(100% - 50px) / 2);
-        grid-template-columns: $col-width $col-width;
-    }
-
-    @include devices(phone) {
-        grid-template-columns: 100%;
+    &-container {
+        flex: 100%;
+        position: relative;
+        display: inline-flex;
+        flex-wrap: wrap;
+        margin-bottom: 30px;
+        align-content: flex-start;
+        min-height: 100%;
     }
 }
 
@@ -325,11 +302,7 @@ button, .button {
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
-    padding: 50px 50px 0px 50px;
-
-    @include devices(tablet) {
-        padding-bottom: 50px;
-    }
+    padding: 50px;
 
     &__container {
         position: relative;
@@ -342,16 +315,18 @@ button, .button {
 
 .flashy-content {
 
-    display: inline-flex; 
+    display: block; 
     margin: 100px 0px;
     width: 40%; 
+    margin-left: auto;
+
     @include devices(tablet) {
         margin: 70px 0px;
         width: 70%;
+        float: right;
     }
     @include devices(phone) {
         margin: 40px 0px;
-        width: 100%;
     }
     font-weight: 500; 
     font-family: 'Open Sans', 'Montserrat', 'Times New Roman';
@@ -359,27 +334,29 @@ button, .button {
 
 .flashy-button {
 
-    display: inline;
+    display: inline-block;
     position: relative;
-    width: 350px;
-    margin: 0px 105px 0px auto;
+    width: min(400px, 35vw);
+    margin: 0px 75px 0px auto;
     padding: 30px;
-    align-self: center;
     text-align: center;
     background-color:rgb(3, 116, 50);
 
     @include devices(tablet) {
+        padding: 20px;
         margin-left: 0px;
-        width: 500px;
+        width: min(400px, 40vw);
     }
     @include devices(phone) {
         margin-left: 0px;
-        width: 300px;
+        padding: 10px;
+        width: min(250px, 60vw);
     }
     
 }
 
-.card {
+.card {                                     // CARDS
+
     position: relative;
     width: 100%;
     @include devices(phone) {
@@ -388,20 +365,21 @@ button, .button {
     display: none;
     flex-direction: column;
     background-color: #dddddd;
+    transition: display 1s ease-in-out;
 
-    &__img {
+    &__img {                    // CARD IMAGE
         width: 100%;
         flex: 1 1 50%;
     }
 
-    &__desc {
+    &__desc {                   // CARD DESCRIPTION
         padding: 5px;
         width: auto;
         text-decoration: none;
         flex: 1 1 50%;
     }
 
-    &--middle{
+    &--middle{                      // POSITIONED CARDS
         display: flex;
         grid-row: 1 / 1;
         grid-column: 2 / 2;
@@ -431,7 +409,7 @@ button, .button {
         }
     }
 
-    &__prev, &__next {
+    &__prev, &__next {                          // CARD BUTTONS
         position: absolute;
         cursor: pointer;
         bottom: 50%;
@@ -452,7 +430,7 @@ button, .button {
         right: 0px;
     }
 
-    &__survey {
+    &__link {                                   // LINKED CARDS
         &-title {
             color: #222222;
             font-size: 1.25rem;
@@ -463,6 +441,30 @@ button, .button {
             font-size: 1rem;
         }
     }
+
+    &__container--grid-3 {                             // CARD CONTAINER
+
+        width: 100%;
+        position: relative;
+        display: inline-grid;
+
+        $col-width : calc(calc(100% - 100px) / 3);
+        grid-template-columns: $col-width $col-width $col-width;
+        grid-auto-rows: min-content;
+        grid-column-gap: 50px;
+        justify-items: center;
+
+        @include devices(tablet) {
+            $col-width : calc(calc(100% - 50px) / 2);
+            grid-template-columns: $col-width $col-width;
+        }
+
+        @include devices(phone) {
+            grid-template-columns: 100%;
+        }
+
+    }
+
 }
 
 .slide {

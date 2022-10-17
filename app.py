@@ -17,14 +17,14 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+
+    cards = auxiliaries.getJSON("static/data/cards.json")
+    return render_template("index.html", cards = cards)
 
 @app.route("/survey")
 def selectSurvey():
 
-    surveyListRaw = auxiliaries.getDir("static/data/survey-list.json")
-    surveyList = json.load(open(surveyListRaw, "r"))
-
+    surveyList = auxiliaries.getJSON("static/data/survey-list.json")
     return render_template("selection.html", surveyList = surveyList)
 
 @app.route("/survey/<selectedSurvey>", methods=["GET"])

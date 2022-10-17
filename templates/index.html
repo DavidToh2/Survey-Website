@@ -1,9 +1,8 @@
 {% extends "layout.html" %}
 
 {% block extraFiles %} 
-
-    <script src="{{ url_for('static', filename='scripts/index-script.js') }}"></script>
-
+<script src="{{ url_for('static', filename='scripts/cards.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/index-script.js') }}"></script>
 {% endblock %}
 
 {% block content %}
@@ -23,18 +22,29 @@
                     <li>You saw it here first</li>
                 </ul>
             </div>
-            <div class="grid-3" id="card-container">
+            <div class="card__container--grid-3" id="card-container-0">
 
-                <div class="card card--left">
-                    <img class="card__img" src="static/${filepath}">
+                <div style="display: none;" class="card__noOfCards">{{ cards|length }}</div>
+                
+                {% if cards %}
+                {% for card in cards %}
+
+                <div class="card" id="card-{{ loop.index }}">
+                    <img class="card__img" src="static/{{ card['filepath'] }}">
                     <div class="card__desc">
                         <ul class="card__list">
-                            <li>${t1}</li>
-                            <li>${t2}</li>
-                            <li>${t3}</li>
+                            <li>{{ card['testimony-1'] }}</li>
+                            <li>{{ card['testimony-2'] }}</li>
+                            <li>{{ card['testimony-3'] }}</li>
                         </ul>
                     </div>
                 </div>
+
+                {% endfor %}
+                {% endif %}
+
+                <button class="card__prev" onclick="incrementCard(-1, 0)">&#10094;</button>
+                <button class="card__next" onclick="incrementCard(1, 0)">&#10095;</button>
 
             </div>
         </div>
@@ -49,6 +59,9 @@
 
     <div class="section-container">
     <div class="section">
+
+        <!-- Manually added in because I'm too lazy to do up another .json file -->
+
         <div class="slide__container">
             <div class="slide anim-fadeout" style="display: none;">
                 <div class="slide__number">hahaha</div>

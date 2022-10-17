@@ -234,6 +234,15 @@ button__text, .button__text {
   flex-wrap: wrap;
 }
 
+.section {
+  position: relative;
+  display: block;
+  align-self: flex-start;
+  margin-left: min(max(96px, 20%) - 76px, 10%);
+  margin-right: max(20px, 20% - 96px);
+  width: 100%;
+  transition: width 1s ease-in-out;
+}
 .section-container {
   flex: 100%;
   position: relative;
@@ -242,38 +251,6 @@ button__text, .button__text {
   margin-bottom: 30px;
   align-content: flex-start;
   min-height: 100%;
-}
-
-.section {
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  align-self: flex-start;
-  align-content: flex-start;
-  margin-left: min(max(96px, 20%) - 76px, 10%);
-  margin-right: max(20px, 20% - 96px);
-  width: 100%;
-  min-height: 100%;
-}
-
-.grid-3 {
-  flex: 100%;
-  position: relative;
-  display: grid;
-  grid-template-columns: calc((100% - 100px) / 3) calc((100% - 100px) / 3) calc((100% - 100px) / 3);
-  grid-auto-rows: min-content;
-  grid-column-gap: 50px;
-  justify-items: center;
-}
-@media only screen and (max-width: 1024px) {
-  .grid-3 {
-    grid-template-columns: calc((100% - 50px) / 2) calc((100% - 50px) / 2);
-  }
-}
-@media only screen and (max-width: 768px) {
-  .grid-3 {
-    grid-template-columns: 100%;
-  }
 }
 
 .bgimg {
@@ -294,12 +271,7 @@ button__text, .button__text {
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
-  padding: 50px 50px 0px 50px;
-}
-@media only screen and (max-width: 1024px) {
-  .colourful-title {
-    padding-bottom: 50px;
-  }
+  padding: 50px;
 }
 .colourful-title__container {
   position: relative;
@@ -310,9 +282,10 @@ button__text, .button__text {
 }
 
 .flashy-content {
-  display: inline-flex;
+  display: block;
   margin: 100px 0px;
   width: 40%;
+  margin-left: auto;
   font-weight: 500;
   font-family: "Open Sans", "Montserrat", "Times New Roman";
 }
@@ -320,35 +293,36 @@ button__text, .button__text {
   .flashy-content {
     margin: 70px 0px;
     width: 70%;
+    float: right;
   }
 }
 @media only screen and (max-width: 768px) {
   .flashy-content {
     margin: 40px 0px;
-    width: 100%;
   }
 }
 
 .flashy-button {
-  display: inline;
+  display: inline-block;
   position: relative;
-  width: 350px;
-  margin: 0px 105px 0px auto;
+  width: min(400px, 35vw);
+  margin: 0px 75px 0px auto;
   padding: 30px;
-  align-self: center;
   text-align: center;
   background-color: rgb(3, 116, 50);
 }
 @media only screen and (max-width: 1024px) {
   .flashy-button {
+    padding: 20px;
     margin-left: 0px;
-    width: 500px;
+    width: min(400px, 40vw);
   }
 }
 @media only screen and (max-width: 768px) {
   .flashy-button {
     margin-left: 0px;
-    width: 300px;
+    padding: 10px;
+    width: min(250px, 60vw);
   }
 }
 
@@ -358,6 +332,7 @@ button__text, .button__text {
   display: none;
   flex-direction: column;
   background-color: #dddddd;
+  transition: display 1s ease-in-out;
 }
 @media only screen and (max-width: 768px) {
   .card {
@@ -427,13 +402,32 @@ button__text, .button__text {
 .card__next {
   right: 0px;
 }
-.card__survey-title {
+.card__link-title {
   color: #222222;
   font-size: 1.25rem;
 }
-.card__survey-description {
+.card__link-description {
   color: black;
   font-size: 1rem;
+}
+.card__container--grid-3 {
+  width: 100%;
+  position: relative;
+  display: inline-grid;
+  grid-template-columns: calc((100% - 100px) / 3) calc((100% - 100px) / 3) calc((100% - 100px) / 3);
+  grid-auto-rows: min-content;
+  grid-column-gap: 50px;
+  justify-items: center;
+}
+@media only screen and (max-width: 1024px) {
+  .card__container--grid-3 {
+    grid-template-columns: calc((100% - 50px) / 2) calc((100% - 50px) / 2);
+  }
+}
+@media only screen and (max-width: 768px) {
+  .card__container--grid-3 {
+    grid-template-columns: 100%;
+  }
 }
 
 .slide {

@@ -11,12 +11,9 @@ def printDatabase():
             # Returns an array containing noOfSections and noOfQuestions(per section) info.
             # Information is read from the .json file.
 
-def parseSurveyInfo(selectedSurvey):        
-
-    targetDir = getDir("static/surveys/{selectedSurvey}.json")
-
-    surveyFile = open(targetDir)
-    survey = json.load(surveyFile)
+def parseSurveyInfo(selectedSurvey):    
+    
+    survey = getJSON(f"static/surveys/{selectedSurvey}.json")
 
     output = []
     output.append(survey[0]["sections"])
@@ -99,3 +96,6 @@ def getDir(path):
 
     basedir = os.path.abspath(os.path.dirname(__file__))
     return os.path.join(basedir, path)
+
+def getJSON(path):
+    return json.load(open(getDir(path), "r"))
