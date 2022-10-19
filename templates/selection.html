@@ -9,19 +9,18 @@
 
     <div class="section-container">
         <div class="section" style="margin-top: 100px";>
-            <a href="{{ url_for('loadSurvey', selectedSurvey = 'questions') }}">Test</a>
             <div class="card__container--grid-3" id="card-container-0">
 
                 <div style="display: none;" class="card__noOfCards">{{ surveyList|length }}</div>
 
                 {% if surveyList %}
-                {% for survey in surveyList %}
+                {% for surveyKey, surveyData in surveyList.items() %}
                 
                 <div class="card" id="card-{{ loop.index }}">
-                    <img class="card__img" src="/static/images/survey-icon/{{ survey['image-name'] }}">
-                    <a class="card__desc" href="{{ url_for('loadSurvey', selectedSurvey = survey['survey-name'] ) }}">
-                        <p class="card__link-title">{{ survey["survey-title"] }}</p>
-                        <p class="card__link-description">{{ survey["survey-description"] }}</p>
+                    <img class="card__img" src="/static/images/survey-icon/{{ surveyData['image-name'] }}">
+                    <a class="card__desc" href="{{ url_for('loadSurvey', selectedSurvey = surveyKey ) }}">
+                        <p class="card__link-title">{{ surveyData["survey-title"] }}</p>
+                        <p class="card__link-description">{{ surveyData["short-description"] }}</p>
                     </a>
                 </div>
                 

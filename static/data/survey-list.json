@@ -1,20 +1,20 @@
-[
-    {
-        "survey-name": "questions",
+{
+    "questions": {
         "image-name": "R.jpg",
         "survey-title": "Questions",
-        "survey-description": "Some questions about yourself!"
+        "short-description": "Some questions about yourself!",
+        "long-description":  "With both trim_blocks and lstrip_blocks enabled, you can put block tags on their own lines, and the entire block line will be removed when rendered, preserving the whitespace of the contents. For example, without the trim_blocks and lstrip_blocks options, this template:"
     },
-    {
-        "survey-name": "personality",
+    "personality": {
         "image-name": "V.jpg",
         "survey-title": "Personality Survey",
-        "survey-description": "Pseudoscience-y stuff :)"
+        "short-description": "Pseudoscience-y stuff :)",
+        "long-description":  "With both trim_blocks and lstrip_blocks enabled, you can put block tags on their own lines, and the entire block line will be removed when rendered, preserving the whitespace of the contents. For example, without the trim_blocks and lstrip_blocks options, this template:"
     },
-    {
-        "survey-name": "capitals",
+    "capitals": {
         "image-name": "N.png",
         "survey-title": "Do You Know Your Capitals?",
-        "survey-description": "Capital letters are some of the hardest things to master in the alphabet!"
+        "short-description": "Capital letters are some of the hardest things to master in the alphabet!",
+        "long-description":  "With both trim_blocks and lstrip_blocks enabled, you can put block tags on their own lines, and the entire block line will be removed when rendered, preserving the whitespace of the contents. For example, without the trim_blocks and lstrip_blocks options, this template:"
     }
-]
+}

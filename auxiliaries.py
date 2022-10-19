@@ -3,11 +3,6 @@ import pandas as pd
 import json
 import os
 
-def printDatabase():
-    db = sqlite3.connect('results.db')
-    for line in db.iterdump():
-        print(line)
-
             # Returns an array containing noOfSections and noOfQuestions(per section) info.
             # Information is read from the .json file.
 
@@ -16,11 +11,14 @@ def parseSurveyInfo(selectedSurvey):
     survey = getJSON(f"static/surveys/{selectedSurvey}.json")
 
     output = []
-    output.append(survey[0]["sections"])
-    for i in range(1, output[0]+1):
-        output.append(survey[i][0]["questions"])
+    for i in range(0, len(survey)):
+        output.append(len(survey[i]['questions']))
 
-    return output   # [ # SECTIONS, # QNS (S1), # QNS (S2), # QNS (S3), etc. ]
+    return output   
+        # [ # QNS (S1), # QNS (S2), # QNS (S3), etc. ]
+        # Use len() to obtain the number of sections.
+
+
 
             # Add, remove, or list all surveys
 
@@ -52,45 +50,75 @@ def doSurveyList(option, targetSurvey = None):
         case 'l':       # List all surveys
             return surveyList
 
+
+
+def printDatabase():
+    print('\n')
+    db = sqlite3.connect('results.db')
+    for line in db.iterdump():
+        print(line)
+    print('\n')
+
+
                 # Create survey entry in table
 
-def createTable(selectedSurvey):
-
+def setTable(selectedSurvey, operation):
+            
     db = sqlite3.connect('results.db')
 
-    tableExists = False
-    tables = db.execute(f"SELECT name FROM sqlite_master WHERE type = 'table'")
-    for row in tables:
-        if row[0] == selectedSurvey:
-            tableExists = True
-    
-    if tableExists == False:
+    match(operation):
 
-        executeString = [f"CREATE TABLE {selectedSurvey} (id INTEGER, name TEXT, "]
+        case 'create':
 
-        surveyInfo = parseSurveyInfo(selectedSurvey)
+            tables = db.execute(f"SELECT name FROM sqlite_master WHERE type = 'table'")
 
-        noOfSections = surveyInfo[0]
-        for i in range(1, noOfSections + 1):
-            noOfQuestions = surveyInfo[i]
-            for j in range(1, noOfQuestions + 1):
-                # All three question types use the same data storage (TEXT), so it's okay
-                executeString.append(f"s{i}_q{j}_answer TEXT, ")
+                # If the table already exists, return True
 
-        executeString.append("PRIMARY KEY(id));")
-        executeStr = "".join(executeString)
+            for row in tables:
+                if row[0] == selectedSurvey:
+                    db.close()
+                    return True
+            
+            executeString = [f"CREATE TABLE {selectedSurvey} (id INTEGER, name TEXT, "]
 
-        db.execute(executeStr)
-        db.commit()
+                # Read survey info from the json file
 
-            # Updates survey-list.json, which functions similarly to a "package directory"
+            surveyInfo = parseSurveyInfo(selectedSurvey)
+            noOfSections = surveyInfo[0]
+            for i in range(1, noOfSections + 1):
+                noOfQuestions = surveyInfo[i]
+                for j in range(1, noOfQuestions + 1):
+                    # All three question types use the same data storage (TEXT), so it's okay
+                    executeString.append(f"s{i}_q{j}_answer TEXT, ")
 
-        doSurveyList('a', selectedSurvey)
+            executeString.append("PRIMARY KEY(id));")
+            executeStr = "".join(executeString)
 
-        return False
+            db.execute(executeStr)
+            db.commit()
+            db.close()
 
-    else:
-        return True
+                # Updates survey-list.json, which functions similarly to a "package directory"
+
+            doSurveyList('a', selectedSurvey)
+
+            return False
+
+        case 'delete':
+
+            db.execute(f"DROP TABLE {selectedSurvey};")
+            db.commit()
+            db.close()
+
+        case 'clear':
+
+            db.execute(f"DELETE FROM {selectedSurvey};")
+            db.commit()
+            db.close()
+
+
+
+    # ASSISTANT FUNCTIONS
 
 def getDir(path):
 

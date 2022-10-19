@@ -28,54 +28,59 @@ def selectSurvey():
     return render_template("selection.html", surveyList = surveyList)
 
 @app.route("/survey/<selectedSurvey>", methods=["GET"])
-def loadSurvey():
+def loadSurvey(selectedSurvey):
 
-    selectedSurvey = request.args.get("selectedSurvey")
     if selectedSurvey == None:
         return redirect(url_for('index'))
-    return render_template("survey.html", selectedSurvey = selectedSurvey)
+    surveyQns = auxiliaries.getJSON(f"static/surveys/{selectedSurvey}.json")
+    surveyList = auxiliaries.getJSON("static/data/survey-list.json")
+    surveyName = surveyList[selectedSurvey]['survey-title']
+    surveyDesc = surveyList[selectedSurvey]['long-description']
+    return render_template("survey.html", selectedSurvey = selectedSurvey, surveyQns = surveyQns, surveyName = surveyName, surveyDesc = surveyDesc)
 
 
 @app.route("/thank-you", methods=["POST"])
 def submitSurvey():
 
-                    # This function uses hidden <input name="" value=""> clauses to pass information regarding noOfQuestions
-                    # and noOfSections to the server in a POST request.
-
     username = request.form.get("username")
-
+    if (not username):
+        return False
     selectedSurvey = request.form.get("selectedSurvey")
-    noOfSections = int(request.form.get("noOfSections"))            
-
-        # Store answer data in an array of arrays
-
-    answers = []
+    
+    surveyQns = auxiliaries.getJSON(f"static/surveys/{selectedSurvey}.json")
+    noOfSections = len(surveyQns)
     noOfQuestions = []
-    for i in range(1, noOfSections+1):
-        t = int(request.form.get(f"s{i}_noOfQuestions"))
-        noOfQuestions.append(t)
-        answers_section = []
-        for questionNo in range(1, t+1):
-            x = request.form.get(f"s{i}_q{questionNo}_input")
-            answers_section.append(x)
-        answers.append(answers_section)
+    Answers = []
 
-    print(answers)
+    for i in range(0, noOfSections):
+        questionArray = surveyQns[i]['questions']
+        noOfQuestions.append(len(questionArray))
+        sectionAnswers = []
+        for j in range(0, noOfQuestions[i]):
+            a = request.form.get(f"s{i+1}-q{j+1}")
+            if a == None:
+                return render_template("error.html")
+            sectionAnswers.append(a)
+            
+        Answers.append(sectionAnswers)
+
+    print(username)
+    print(Answers)
 
         # Checks if SQL table already exists: if not, then creates table
 
-    auxiliaries.createTable(selectedSurvey)
+    auxiliaries.setTable(selectedSurvey, 'create')
 
     db = sqlite3.connect("results.db")
 
-    print(username)
     db.execute(f"INSERT INTO {selectedSurvey} (name) VALUES (?)", [username])
     targetID = db.execute(f"SELECT id from {selectedSurvey} WHERE name = ?", [username]).fetchone()[0]
-    for i in range(1, noOfSections + 1):
-        for j in range(1, noOfQuestions[i-1] + 1):
-            db.execute(f"UPDATE {selectedSurvey} SET s{i}_q{j}_answer = ? WHERE id = ?", (answers[i-1][j-1], targetID))
+    for i in range(0, noOfSections):
+        for j in range(0, noOfQuestions[i]):
+            db.execute(f"UPDATE {selectedSurvey} SET s{i+1}_q{j+1}_answer = ? WHERE id = ?", (Answers[i][j], targetID))
     db.commit()
     return render_template("thank-you.html", userName = username)
+
 
 @app.route("/results", methods=["GET", "POST"])
 def loadResults():

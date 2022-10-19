@@ -15,16 +15,27 @@ These variables are declarative. Invoke using var(--variable-name). */
   --dark-blue: #0c125b;
   --cyan: #028f94;
   --yellow: #6b7203;
-  --font-family: "Georgia", sans-serif;
-  font-size: 16px;
+  --font-family: "Verdana", sans-serif;
+  font-size: 24px;
   --font-size__title: 1.25rem;
   margin: 0px;
   --picture-width: min(100%, 900px);
+}
+@media only screen and (max-width: 768px) {
+  :root {
+    font-size: 20px;
+  }
+}
+@media only screen and (max-width: 432px) {
+  :root {
+    font-size: 16px;
+  }
 }
 
 body {
   display: block;
   margin: 0px;
+  font-family: var(--font-family);
 }
 
 .anim-fadeout {
@@ -44,7 +55,7 @@ button, .button {
   padding: 5px;
 }
 button__text, .button__text {
-  font-family: "Impact", Cambria;
+  font-family: "Impact", sans-serif;
   color: white;
   text-decoration: none;
 }
@@ -150,7 +161,7 @@ button__text, .button__text {
 }
 .header__button {
   padding: 10px clamp(12px, 2vw, 24px);
-  font-size: 1.25rem;
+  font-size: 1rem;
   display: inline;
   cursor: pointer;
 }
@@ -161,7 +172,7 @@ button__text, .button__text {
   background-color: var(--yellow);
 }
 .header__button--tiny {
-  font-size: 1rem;
+  font-size: 0.75rem;
   padding: 6px clamp(12px, 2vw, 24px);
 }
 @media only screen and (max-width: 1024px) {
@@ -186,12 +197,12 @@ button__text, .button__text {
 
 /* PAGE CONTENT GENERIC STYLES */
 .h1 {
-  font-size: 4rem;
+  font-size: 3rem;
   margin: 0px;
 }
 @media only screen and (max-width: 768px) {
   .h1 {
-    font-size: 3rem;
+    font-size: 2.5rem;
   }
 }
 @media only screen and (max-width: 432px) {
@@ -201,7 +212,7 @@ button__text, .button__text {
 }
 
 .h2 {
-  font-size: 2.5rem;
+  font-size: 2rem;
   margin: 0px;
 }
 @media only screen and (max-width: 768px) {
@@ -211,21 +222,35 @@ button__text, .button__text {
 }
 @media only screen and (max-width: 432px) {
   .h2 {
-    font-size: 1.2rem;
-  }
-}
-
-.h3 {
-  font-size: 2rem;
-}
-@media only screen and (max-width: 768px) {
-  .h3 {
     font-size: 1.4rem;
   }
 }
+
+.h3, .survey-section__title {
+  font-size: 1.5rem;
+}
+@media only screen and (max-width: 768px) {
+  .h3, .survey-section__title {
+    font-size: 1.3rem;
+  }
+}
 @media only screen and (max-width: 432px) {
-  .h3 {
-    font-size: 1rem;
+  .h3, .survey-section__title {
+    font-size: 1.1rem;
+  }
+}
+
+.sm1, .card__desc {
+  font-size: 0.8rem;
+}
+@media only screen and (max-width: 768px) {
+  .sm1, .card__desc {
+    font-size: 0.7rem;
+  }
+}
+@media only screen and (max-width: 432px) {
+  .sm1, .card__desc {
+    font-size: 0.6rem;
   }
 }
 
@@ -264,6 +289,74 @@ button__text, .button__text {
   background-image: linear-gradient(150deg, rgb(255, 255, 255) 30%, rgba(255, 255, 255, 0.7) 100%);
 }
 
+.input--short {
+  width: max(200px, 30%);
+  height: 1.2rem;
+  font-size: 1rem;
+  margin-bottom: 14px;
+}
+.input--textarea {
+  width: calc(100% - 8px);
+  height: 3rem;
+  margin-bottom: 14px;
+}
+
+input[type=text], textarea {
+  font-size: 1rem;
+  border: 0.5px solid #888888;
+  background-color: #FFFFFF;
+  padding: 3px;
+  border-radius: 3px;
+  transition: background-color 0.3s ease-in-out;
+}
+input[type=text]:hover, textarea:hover {
+  border: 0.5px solid #555555;
+  background-color: #F2F2F2;
+}
+input[type=text]:focus, textarea:focus {
+  box-shadow: 0 0 1px 6px rgb(243, 49, 0);
+}
+
+.radio-button {
+  background-color: grey;
+  position: absolute;
+  top: calc(50% - 10px);
+  left: 15px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+.radio-button::after {
+  position: absolute;
+  content: "";
+  display: none;
+}
+.radio-option {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  margin: 7px 3px;
+  padding: 8px 3px 8px 35px;
+}
+.radio-option > input[type=radio] {
+  opacity: 0;
+}
+.radio-option:hover > input ~ .radio-button {
+  background-color: var(--dark-blue);
+}
+.radio-option > input:checked ~ .radio-button {
+  background-color: rgb(3, 116, 50);
+}
+.radio-option > input:checked ~ .radio-button::after {
+  display: block;
+  background-color: white;
+  top: 6px;
+  left: 6px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
 /* INDEX PAGE STYLES */
 .colourful-title {
   /* https://blog.logrocket.com/five-cool-css-header-styles-with-cross-browser-compatibility/ */
@@ -271,13 +364,11 @@ button__text, .button__text {
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
-  padding: 50px;
+  padding: 1.5rem;
 }
 .colourful-title__container {
+  display: inline-block;
   position: relative;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
   word-wrap: break-word;
 }
 
@@ -291,7 +382,7 @@ button__text, .button__text {
 }
 @media only screen and (max-width: 1024px) {
   .flashy-content {
-    margin: 70px 0px;
+    margin: 40px 0px;
     width: 70%;
     float: right;
   }
@@ -307,13 +398,14 @@ button__text, .button__text {
   position: relative;
   width: min(400px, 35vw);
   margin: 0px 75px 0px auto;
-  padding: 30px;
+  padding: 20px;
   text-align: center;
   background-color: rgb(3, 116, 50);
+  border-radius: 20px;
 }
 @media only screen and (max-width: 1024px) {
   .flashy-button {
-    padding: 20px;
+    padding: 15px;
     margin-left: 0px;
     width: min(400px, 40vw);
   }
@@ -433,7 +525,7 @@ button__text, .button__text {
 .slide {
   position: relative;
   width: 100%;
-  font-family: "Verdana", sans-serif;
+  font-family: var(--font-family);
 }
 .slide__container {
   position: relative;
@@ -471,7 +563,7 @@ button__text, .button__text {
   top: 50%;
   color: black;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 0.8rem;
   transition: 0.6s ease;
   z-index: 3;
   border: 0px;
@@ -484,82 +576,51 @@ button__text, .button__text {
   left: calc(var(--picture-width) - 24px);
 }
 
-.survey-container {
-  max-width: 900px;
-  margin: auto;
-  border: 2px solid white;
-  padding: 1rem;
-}
-
-.survey-main {
-  color: #000000;
-  background-color: #ffffff;
-}
-
 .survey-section {
-  border: 2px solid white;
-  display: inline;
-  flex-wrap: wrap;
+  display: block;
+  margin: 2.5rem 0px;
 }
-
-.survey-section-title {
-  margin: 0.5rem;
-  padding: 0.5rem;
-  border: 2px solid white;
-  font-size: 36px;
-  font-family: Georgia, "Times New Roman", Times, serif;
+.survey-section__title {
+  display: block;
+  font-family: var(--font-family);
+  margin-bottom: 1.6rem;
+}
+.survey-section__questions {
+  display: grid;
+  grid-auto-rows: min-content;
+  grid-row-gap: 20px;
+  grid-template-columns: 3.5rem calc(100% - 4rem);
+  grid-column-gap: 0.5rem;
 }
 
 .survey-question {
-  width: 100%;
-  margin: 0.5rem;
-  padding: 0.3rem;
-  border: 1px solid white;
-  display: flex;
-  flex-wrap: wrap;
+  grid-column: 2/2;
 }
-
 .survey-question-no {
-  width: 7%;
-  border: 1px solid white;
-  margin: 6pt 0pt 6pt 0pt;
-}
-
-.survey-question-text {
-  width: auto;
-  max-width: 92%;
-  border: 1px solid white;
-  margin: 6pt 0pt 6pt 0pt;
-}
-
-.survey-question-answer {
-  margin: 6pt 0pt 6pt 0pt;
-  padding-left: 3pt;
-  width: 100%;
-  border: 1px solid white;
-}
-
-.survey-question-response {
-  padding-left: 3pt;
-  width: 100%;
-  border: 1px solid white;
-}
-
-.survey-input-short {
-  width: 25%;
-  min-width: 100px;
-}
-
-.survey-input-textArea {
-  width: 100%;
-  height: 3rem;
-}
-
-.survey-submit-button {
-  background-color: #D9EDFF;
+  grid-column: 1/1;
+  justify-self: center;
   font-weight: 600;
-  font-size: 1.25rem;
-  color: #000000;
+}
+.survey-question__text {
+  display: block;
+  margin-bottom: 14px;
+}
+.survey-question__answer {
+  display: block;
+  width: 100%;
+}
+
+.survey-submit {
+  display: block;
+}
+.survey-submit-button {
+  display: block;
+  background-color: #4c005c;
+  border: 0px;
+  padding: 10px;
+  font-size: 1rem;
+  color: #FFFFFF;
+  margin: auto;
 }
 
 .results-table {
