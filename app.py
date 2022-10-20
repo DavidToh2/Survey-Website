@@ -46,40 +46,76 @@ def submitSurvey():
     if (not username):
         return False
     selectedSurvey = request.form.get("selectedSurvey")
+    selectedSurveyName = request.form.get("surveyName")
     
     surveyQns = auxiliaries.getJSON(f"static/surveys/{selectedSurvey}.json")
+
     noOfSections = len(surveyQns)
     noOfQuestions = []
     Answers = []
+    correctedAnswers = []
 
     for i in range(0, noOfSections):
+
         questionArray = surveyQns[i]['questions']
         noOfQuestions.append(len(questionArray))
+
         sectionAnswers = []
+        correctedSectionAnswers = []
+
         for j in range(0, noOfQuestions[i]):
+
             a = request.form.get(f"s{i+1}-q{j+1}")
             if a == None:
                 return render_template("error.html")
             sectionAnswers.append(a)
+
+                    # Checks if answer is correct
+
+            if 'correct-answer' in questionArray[j]:            
+                c = questionArray[j]['correct-answer']
+                if isinstance(c, str):
+                    if c.upper().strip() == a.upper().strip():
+                        correctedSectionAnswers.append(1)
+                    else:
+                        correctedSectionAnswers.append(-1)
+                elif isinstance(c, int):
+                    if questionArray[j]['input-type'] == 'options':
+                        correctedSectionAnswers.append({'correct': c, 'response': int(a)})
+                    else:
+                        if c == int(a):
+                            correctedSectionAnswers.append(1)
+                        else:
+                            correctedSectionAnswers.append(-1)
+            else:
+                correctedSectionAnswers.append(0)
+
             
         Answers.append(sectionAnswers)
+        correctedAnswers.append(correctedSectionAnswers)
 
-    print(username)
-    print(Answers)
+    # print(username)
+    # print(Answers)
 
-        # Checks if SQL table already exists: if not, then creates table
-
+                # Uploads the answers into the database.
+        
+    # Checks if SQL table already exists: if not, then creates table
     auxiliaries.setTable(selectedSurvey, 'create')
 
     db = sqlite3.connect("results.db")
 
     db.execute(f"INSERT INTO {selectedSurvey} (name) VALUES (?)", [username])
-    targetID = db.execute(f"SELECT id from {selectedSurvey} WHERE name = ?", [username]).fetchone()[0]
+    targetID = db.execute(f"SELECT max(id) from {selectedSurvey} WHERE name = ?", [username]).fetchone()[0]
     for i in range(0, noOfSections):
         for j in range(0, noOfQuestions[i]):
             db.execute(f"UPDATE {selectedSurvey} SET s{i+1}_q{j+1}_answer = ? WHERE id = ?", (Answers[i][j], targetID))
     db.commit()
-    return render_template("thank-you.html", userName = username)
+
+                # Displays the results page
+
+    thank_you_message = f"Thank you {username} for participating in this survey! You may review your responses below:"
+
+    return render_template("survey.html", selectedSurvey = selectedSurvey, surveyQns = surveyQns, surveyName = selectedSurveyName, surveyDesc = thank_you_message, responses = Answers, results = correctedAnswers)
 
 
 @app.route("/results", methods=["GET", "POST"])

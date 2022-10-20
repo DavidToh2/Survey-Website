@@ -1,0 +1,80 @@
+
+            <!-- SURVEY FORM MACROS -->
+
+{% macro text(sectionIndex, questionIndex, placeholder, regex='none') %}
+    {% if regex != 'none' %}
+        <div class="survey-question__answer">
+            <input type="text" class="input--short" name="s{{sectionIndex}}-q{{questionIndex}}" placeholder="{{placeholder}}" pattern="{{regex}}">
+        </div>
+    {% else %}
+        <div class="survey-question__answer">
+            <input type="text" class="input--short" name="s{{sectionIndex}}-q{{questionIndex}}" placeholder="{{placeholder}}">
+        </div>
+    {% endif %}
+{% endmacro %}
+
+
+{% macro textarea(sectionIndex, questionIndex, placeholder) %}
+    <div class="survey-question__answer">
+        <textarea class="input--textarea" name="s{{sectionIndex}}-q{{questionIndex}}" placeholder="{{placeholder}}"></textarea>
+    </div>
+{% endmacro %}
+
+
+{% macro radioOption(sectionIndex, questionIndex, optionArray) %}
+    {% for option in optionArray %}
+        <label class="radio-option">
+            <input type="radio" id="s{{sectionIndex}}-q{{questionIndex}}-{{loop.index}}" name="s{{sectionIndex}}-q{{questionIndex}}" value="{{loop.index}}">
+            <span class="radio-button"></span>
+            {{option}}
+        </label>
+    {% endfor %}
+{% endmacro %}
+
+
+
+            <!-- SURVEY REVIEW MACROS -->
+
+{% macro textMarked(sectionIndex, questionIndex, response, state) %}
+    <div class="survey-question__answer">
+    {% if state == 1 %}
+        <input type="text" class="input--short input--correct" name="s{{sectionIndex}}-q{{questionIndex}}" value="{{response}}" readonly>
+    {% elif state == -1 %}
+        <input type="text" class="input--short input--wrong" name="s{{sectionIndex}}-q{{questionIndex}}" value="{{response}}" readonly>
+    {% else %}
+        <input type="text" class="input--short" name="s{{sectionIndex}}-q{{questionIndex}}" value="{{response}}" readonly>
+    {% endif %}
+    </div>
+{% endmacro %}
+
+{% macro textareaMarked(sectionIndex, questionIndex, response, state) %}
+    <div class="survey-question__answer">
+    {% if state == 1%}
+        <textarea class="input--textarea input--correct" name="s{{sectionIndex}}-q{{questionIndex}}" readonly>{{response}}</textarea>
+    {% elif state == -1 %}
+        <textarea class="input--textarea input--wrong" name="s{{sectionIndex}}-q{{questionIndex}}" readonly>{{response}}</textarea>
+    {% else %}
+        <textarea class="input--textarea" name="s{{sectionIndex}}-q{{questionIndex}}" readonly>{{response}}</textarea>
+    {% endif %}
+    </div>
+{% endmacro %}
+
+{% macro radioOptionMarked(sectionIndex, questionIndex, optionArray, response) %}
+    {% set correctAnswer = response['correct'] %}
+    {% set userResponse = response['response'] %}
+    {% for option in optionArray %}
+        {% if loop.index == correctAnswer %}
+            <label class="radio-option radio--correct">
+                <input type="radio" id="s{{sectionIndex}}-q{{questionIndex}}-{{loop.index}}" name="s{{sectionIndex}}-q{{questionIndex}}" value="{{loop.index}}">
+        {% elif loop.index == userResponse %}
+            <label class="radio-option radio--wrong">
+                <input type="radio" id="s{{sectionIndex}}-q{{questionIndex}}-{{loop.index}}" name="s{{sectionIndex}}-q{{questionIndex}}" value="{{loop.index}}">
+        {% else %}
+            <label class="radio-option">
+                <input type="radio" id="s{{sectionIndex}}-q{{questionIndex}}-{{loop.index}}" name="s{{sectionIndex}}-q{{questionIndex}}" value="{{loop.index}}">
+        {% endif %}
+                <span class="radio-button"></span>
+                {{option}}
+            </label>
+    {% endfor %}
+{% endmacro %}

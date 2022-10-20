@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block content %}
+    {% import 'macros.html' as macros %}
 
 <div class="section-container">
     <div class="section">
@@ -24,6 +25,7 @@
     <form class="section" onsubmit="return highlightUnanswered();" method="post" action="{{ url_for('submitSurvey') }}">
         
         <input type="hidden" name="selectedSurvey" value="{{ selectedSurvey }}">
+        <input type="hidden" name="surveyName" value="{{ surveyName }}">
         <!-- All of this can be done in PHP. 
             $_POST['key'] can be used to get data which was POSTed.
             echo "HTML HERE" inserts lines of HTML, similar to JQuery's .appendTo() function.
@@ -38,6 +40,9 @@
             <div class="survey-section__title">
                 {{ section['section-name'] }}
             </div>
+            <div class="survey-section__desc">
+                {{ section['section-desc'] }}
+            </div>
             <div class="survey-section__questions" id="s{{loop.index}}-qns">
 
                 {% for question in section['questions'] %}
@@ -51,32 +56,34 @@
 
                     {% if question['input-type'] == "text" %}
 
-                    <div class="survey-question__answer">
-                        <input type="text" class="input--short" name="s{{section_loop.index}}-q{{loop.index}}" placeholder="Answer here">
-                    </div>
+                        {% if results %}
+                            {{ macros.textMarked(section_loop.index, loop.index, responses[section_loop.index0][loop.index0], results[section_loop.index0][loop.index0]) }}
+                        {% else %}
+                            {% if 'regex' in question %}
+                                {{ macros.text(section_loop.index, loop.index, "Answer here", question['regex']) }}
+                            {% else %}
+                                {{ macros.text(section_loop.index, loop.index, "Answer here") }}
+                            {% endif %}
+                        {% endif %}
 
                     {% elif question['input-type'] == "textarea" %}
 
-                    <div class="survey-question__answer">
-                        <textarea class="input--textarea" name="s{{section_loop.index}}-q{{loop.index}}" placeholder="Answer here"></textarea>
-                    </div>
+                        {% if results %}
+                            {{ macros.textareaMarked(section_loop.index, loop.index, responses[section_loop.index0][loop.index0], results[section_loop.index0][loop.index0]) }}
+                        {% else %}
+                            {{ macros.textarea(section_loop.index, loop.index, "Answer here") }}
+                        {% endif %}
 
                     {% elif question['input-type'] == "options" %}
 
                     <div class="survey-question__answer input--radio">
                         {% set question_loop = loop %}
-
-                        {% for option in question['options'] %}
-
-                        <label class="radio-option">
-
-                            <input type="radio" id="s{{section_loop.index}}-q{{question_loop.index}}-{{loop.index}}" name="s{{section_loop.index}}-q{{question_loop.index}}" value="{{loop.index}}">
-                            <span class="radio-button"></span>
-                            {{option}}
-
-                        </label>
-
-                        {% endfor %}
+                        {% if results %}
+                            {{ macros.radioOptionMarked(section_loop.index, question_loop.index, question['options'], results[section_loop.index0][question_loop.index0]) }}
+                        {% else %}
+                            {{ macros.radioOption(section_loop.index, question_loop.index, question['options']) }}
+                        {% endif %}
+                    
                     </div>
 
                     {% endif %}

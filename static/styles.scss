@@ -325,6 +325,14 @@ button, .button {
         height: 3rem;
         margin-bottom: 14px;
     }
+
+    &--correct {
+        background-color:rgb(152, 201, 172) !important;
+    }
+
+    &--wrong {
+        background-color: #FFD0D0 !important;
+    }
 }
 
 input[type="text"], textarea {
@@ -362,6 +370,14 @@ input[type="text"], textarea {
             content: "";
             display: none;
         }
+    }
+
+    &--correct {
+        background-color:rgb(152, 201, 172) !important;
+    }
+
+    &--wrong {
+        background-color: #FFD0D0 !important;
     }
 
     &-option {
@@ -419,17 +435,16 @@ input[type="text"], textarea {
 .flashy-content {
 
     display: block; 
-    margin: 100px 0px;
+    margin: 40px 0px;
     width: 40%; 
     margin-left: auto;
 
     @include devices(tablet) {
-        margin: 40px 0px;
         width: 70%;
         float: right;
     }
     @include devices(phone) {
-        margin: 40px 0px;
+        width: 80%;
     }
     font-weight: 500; 
     font-family: 'Open Sans', 'Montserrat', 'Times New Roman';
@@ -640,14 +655,16 @@ input[type="text"], textarea {
     display: block;
 
     margin: 2.5rem 0px;
-    @include devices(tablet) {
-
-    }
 
     &__title {
         display: block;
         @extend %h3;
         font-family: var(--font-family);
+        margin-bottom: 1.6rem;
+    }
+
+    &__desc {
+        display: block;
         margin-bottom: 1.6rem;
     }
 

@@ -300,6 +300,12 @@ button__text, .button__text {
   height: 3rem;
   margin-bottom: 14px;
 }
+.input--correct {
+  background-color: rgb(152, 201, 172) !important;
+}
+.input--wrong {
+  background-color: #FFD0D0 !important;
+}
 
 input[type=text], textarea {
   font-size: 1rem;
@@ -330,6 +336,12 @@ input[type=text]:focus, textarea:focus {
   position: absolute;
   content: "";
   display: none;
+}
+.radio--correct {
+  background-color: rgb(152, 201, 172) !important;
+}
+.radio--wrong {
+  background-color: #FFD0D0 !important;
 }
 .radio-option {
   display: block;
@@ -374,7 +386,7 @@ input[type=text]:focus, textarea:focus {
 
 .flashy-content {
   display: block;
-  margin: 100px 0px;
+  margin: 40px 0px;
   width: 40%;
   margin-left: auto;
   font-weight: 500;
@@ -382,14 +394,13 @@ input[type=text]:focus, textarea:focus {
 }
 @media only screen and (max-width: 1024px) {
   .flashy-content {
-    margin: 40px 0px;
     width: 70%;
     float: right;
   }
 }
 @media only screen and (max-width: 768px) {
   .flashy-content {
-    margin: 40px 0px;
+    width: 80%;
   }
 }
 
@@ -583,6 +594,10 @@ input[type=text]:focus, textarea:focus {
 .survey-section__title {
   display: block;
   font-family: var(--font-family);
+  margin-bottom: 1.6rem;
+}
+.survey-section__desc {
+  display: block;
   margin-bottom: 1.6rem;
 }
 .survey-section__questions {

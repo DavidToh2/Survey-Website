@@ -1,0 +1,89 @@
+[
+    {
+        "section-no": 1,
+        "section-name": "Capitals",
+        "section-desc": "Do you know the capitals of these countries?",
+        "questions": [
+            {
+                "question": "China",
+                "input-type": "options",
+                "options": ["Shanghai", "Nanjing", "Beijing", "Hangzhou"],
+                "correct-answer": 3
+            },
+            {
+                "question": "Russia",
+                "input-type": "options",
+                "options": ["St. Petersburg", "Stalingrad", "Kiev", "Moscow"],
+                "correct-answer": 4
+            },
+            {
+                "question": "Brazil",
+                "input-type": "options",
+                "options": ["Rio de Janiero", "Salvador", "Sao Paolo", "Columbia"],
+                "correct-answer": 1
+            },
+            {
+                "question": "South Korea",
+                "input-type": "options",
+                "options": ["Incheon", "Pyeongyang", "Seoul", "Jeju"],
+                "correct-answer": 3
+            },
+            {
+                "question": "Vietnam",
+                "input-type": "options",
+                "options": ["Ho Chi Minh City", "Bangkok", "Hanoi", "Manila"],
+                "correct-answer": 3
+            },
+            {
+                "question": "Laos",
+                "input-type": "options",
+                "options": ["Vientaine", "Phnom Penh", "Naypyidaw", "Dili"],
+                "correct-answer": 1
+            },
+            {
+                "question": "Singapore",
+                "input-type": "options",
+                "options": ["Washington DC", "Abu Dhabi", "Hawaii", "Singapore"],
+                "correct-answer": 4
+            }
+        ]
+    },
+
+    {
+        "section-no": 2,
+        "section-name": "Countries",
+        "section-desc": "Do you know which countries these capitals belong to?",
+        "questions": [
+            {
+                "question": "New Delhi",
+                "input-type": "text",
+                "correct-answer": "India",
+                "regex": "[A-Za-z]*"
+            },
+            {
+                "question": "Madrid",
+                "input-type": "text",
+                "correct-answer": "Spain",
+                "regex": "[A-Za-z]*"
+            },
+            {
+                "question": "Bucharest",
+                "input-type": "text",
+                "correct-answer": "Romania",
+                "regex": "[A-Za-z]*"
+            },
+            {
+                "question": "Male",
+                "input-type": "text",
+                "correct-answer": "Maldives",
+                "regex": "[A-Za-z]*"
+            },
+            {
+                "question": "Monaco",
+                "input-type": "text",
+                "correct-answer": "Monaco",
+                "regex": "[A-Za-z]*"
+            }
+        ]
+    }
+]

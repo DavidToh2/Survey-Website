@@ -6,7 +6,7 @@ import os
             # Returns an array containing noOfSections and noOfQuestions(per section) info.
             # Information is read from the .json file.
 
-def parseSurveyInfo(selectedSurvey):    
+def getNoOfQuestions(selectedSurvey):    
     
     survey = getJSON(f"static/surveys/{selectedSurvey}.json")
 
@@ -83,13 +83,13 @@ def setTable(selectedSurvey, operation):
 
                 # Read survey info from the json file
 
-            surveyInfo = parseSurveyInfo(selectedSurvey)
-            noOfSections = surveyInfo[0]
-            for i in range(1, noOfSections + 1):
-                noOfQuestions = surveyInfo[i]
-                for j in range(1, noOfQuestions + 1):
+            qnNoArray = getNoOfQuestions(selectedSurvey)
+            noOfSections = len(qnNoArray)
+            for i in range(0, noOfSections):
+                noOfQuestions = qnNoArray[i]
+                for j in range(0, noOfQuestions):
                     # All three question types use the same data storage (TEXT), so it's okay
-                    executeString.append(f"s{i}_q{j}_answer TEXT, ")
+                    executeString.append(f"s{i+1}_q{j+1}_answer TEXT, ")
 
             executeString.append("PRIMARY KEY(id));")
             executeStr = "".join(executeString)
