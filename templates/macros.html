@@ -35,24 +35,30 @@
 
             <!-- SURVEY REVIEW MACROS -->
 
-{% macro textMarked(sectionIndex, questionIndex, response, state) %}
+{% macro textMarked(sectionIndex, questionIndex, result) %}
+    {% set status = result['status'] %}
+    {% set response = result['response'] %}
     <div class="survey-question__answer">
-    {% if state == 1 %}
+    {% if status == 1 %}
         <input type="text" class="input--short input--correct" name="s{{sectionIndex}}-q{{questionIndex}}" value="{{response}}" readonly>
-    {% elif state == -1 %}
+    {% elif status == -1 %}
         <input type="text" class="input--short input--wrong" name="s{{sectionIndex}}-q{{questionIndex}}" value="{{response}}" readonly>
+        <p class="input__bottom-msg">Correct answer: {{result['correct']}}</p>
     {% else %}
         <input type="text" class="input--short" name="s{{sectionIndex}}-q{{questionIndex}}" value="{{response}}" readonly>
     {% endif %}
     </div>
 {% endmacro %}
 
-{% macro textareaMarked(sectionIndex, questionIndex, response, state) %}
+{% macro textareaMarked(sectionIndex, questionIndex, result) %}
+    {% set status = result['status'] %}
+    {% set response = result['response'] %}
     <div class="survey-question__answer">
-    {% if state == 1%}
+    {% if status == 1 %}
         <textarea class="input--textarea input--correct" name="s{{sectionIndex}}-q{{questionIndex}}" readonly>{{response}}</textarea>
-    {% elif state == -1 %}
+    {% elif status == -1 %}
         <textarea class="input--textarea input--wrong" name="s{{sectionIndex}}-q{{questionIndex}}" readonly>{{response}}</textarea>
+        <p class="input__bottom-msg">Correct answer: {{result['correct']}}</p>
     {% else %}
         <textarea class="input--textarea" name="s{{sectionIndex}}-q{{questionIndex}}" readonly>{{response}}</textarea>
     {% endif %}

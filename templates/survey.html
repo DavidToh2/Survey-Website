@@ -18,12 +18,15 @@
 
 <div class="section-container">
 
-    {% if surveyQns %}
+{% if surveyQns %}
 
     <!-- Note that another way to do form validation is to use the HTML in-built "required" attribute for form inputs. -->
-
+    {% if results %}
+    <div class="section">
+    {% else %}
     <form class="section" onsubmit="return highlightUnanswered();" method="post" action="{{ url_for('submitSurvey') }}">
-        
+    {% endif %}
+
         <input type="hidden" name="selectedSurvey" value="{{ selectedSurvey }}">
         <input type="hidden" name="surveyName" value="{{ surveyName }}">
         <!-- All of this can be done in PHP. 
@@ -57,7 +60,7 @@
                     {% if question['input-type'] == "text" %}
 
                         {% if results %}
-                            {{ macros.textMarked(section_loop.index, loop.index, responses[section_loop.index0][loop.index0], results[section_loop.index0][loop.index0]) }}
+                            {{ macros.textMarked(section_loop.index, loop.index, results[section_loop.index0][loop.index0]) }}
                         {% else %}
                             {% if 'regex' in question %}
                                 {{ macros.text(section_loop.index, loop.index, "Answer here", question['regex']) }}
@@ -69,7 +72,7 @@
                     {% elif question['input-type'] == "textarea" %}
 
                         {% if results %}
-                            {{ macros.textareaMarked(section_loop.index, loop.index, responses[section_loop.index0][loop.index0], results[section_loop.index0][loop.index0]) }}
+                            {{ macros.textareaMarked(section_loop.index, loop.index, results[section_loop.index0][loop.index0]) }}
                         {% else %}
                             {{ macros.textarea(section_loop.index, loop.index, "Answer here") }}
                         {% endif %}
@@ -99,6 +102,9 @@
 
         <hr>
 
+    {% if results %}
+    </div>
+    {% else %}
         <div class="survey-section">
             <div class="survey-section__questions">
                 <div class="survey-question" style="justify-self: center; position: relative;">
@@ -117,8 +123,9 @@
         </div>
 
     </form>
-
     {% endif %}
+
+{% endif %}
 
 </div>
 

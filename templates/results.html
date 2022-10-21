@@ -8,49 +8,40 @@
 
 {% block content %}
 
-    <!-- results.html uses JINJA2 (provided by Flask) to display the list of surveys -->
-    <form action="/results" method="POST">
-        <div>
-            <h3>Select your survey!</h3> 
-            {% for element in surveyList %}
-            <input type="radio" name="survey-select" id="survey-select-{{ element }}" value="{{ element }}">
-            <label for="survey-select-{{ element }}">{{ element }}</label>
-            {% endfor %}
-            <input type="submit" value="View results">
-        </div>
-    </form>
-    
-    {% if selectedSurvey %}
-    <input type="hidden" name="selectedSurvey" value="{{ selectedSurvey }}">
-    {% else %}
-    <input type="hidden" name="selectedSurvey" value="None">
-    {% endif %}
-
-    <!-- Unfortunately, Flask is a server-side language, and Javascript is client-side. These two are not supposed to
-    communicate with each other. This means that it is impossible for Javascript alone to display survey results, which
-    have to be accessed using Python via app.py. The JINJJA2 syntax is also inconvenient, as it is unable to access 
-    survey.json to determine question type. Hence, a combination of the two features are used. -->
-
-    <!-- Similarly to survey.html, selectedSurvey is passed using Flask into a hidden input, which is then fetched by 
-    Javascript. -->
-
-    <div id="result">
-        {% if selectedSurvey %}
-            <div class="section">
-                <h1>Results of survey {{ selectedSurvey }}:</h1>
-            </div>
-            <div class="section" id="result-table">
-                <table class="results-table" id="results-table-data">
-                    {% for result in responses|reverse %}
-                    <tr class="results-table-datarow">
-                        {% for element in result %}
-                        <td class="results-table-data">{{ element }}</td>
-                        {% endfor %}
-                    </tr>
+    <div class="section-container">
+        <div class="section" style="margin-top: 75px;">
+            <div class="centered dropdown">
+                <h3 class="centered spaced">Select your survey:</h3>
+                <input type="text" class="input--short dropdown-search" placeholder="Name of Survey" id="selectedSurvey" onkeyup="filter(this, 'survey-list.json')">
+                <ul class="dropdown__content">
+                    {% for survey, surveyData in surveyList.items() %}
+                        <li class="button dropdown__button dropdown--visible" onclick="showSurvey(this)" id="{{ survey }}">{{ surveyData['survey-title'] }}</li>
                     {% endfor %}
-                </table>
+                </ul>
             </div>
-        {% endif %}
+        </div>
+    </div>
+    <div class="section-container">
+
+        <div id="result">
+            {% if selectedSurvey %}
+                <div class="section">
+                    <h1>Results of survey {{ selectedSurvey }}:</h1>
+                </div>
+                <div class="section" id="result-table">
+                    <table class="results-table" id="results-table-data">
+                        {% for result in responses|reverse %}
+                        <tr class="results-table-datarow">
+                            {% for element in result %}
+                            <td class="results-table-data">{{ element }}</td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            {% endif %}
+        </div>
+
     </div>
 
 {% endblock %}

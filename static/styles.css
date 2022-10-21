@@ -52,12 +52,22 @@ body {
 }
 button, .button {
   text-align: center;
-  padding: 5px;
+  padding: 10px clamp(12px, 2vw, 24px);
 }
 button__text, .button__text {
   font-family: "Impact", sans-serif;
   color: white;
   text-decoration: none;
+}
+@media only screen and (max-width: 768px) {
+  button, .button {
+    padding: 8px clamp(9px, 2vw, 18px);
+  }
+}
+@media only screen and (max-width: 432px) {
+  button, .button {
+    padding: 6px;
+  }
 }
 
 /* HEADER AND MOBILE/TABLET HEADER STYLES */
@@ -160,7 +170,6 @@ button__text, .button__text {
   transition: width, height, font-size 1s ease-in-out;
 }
 .header__button {
-  padding: 10px clamp(12px, 2vw, 24px);
   font-size: 1rem;
   display: inline;
   cursor: pointer;
@@ -170,6 +179,7 @@ button__text, .button__text {
 }
 .header__button:hover {
   background-color: var(--yellow);
+  box-shadow: 0px 4px 2px -2px gray;
 }
 .header__button--tiny {
   font-size: 0.75rem;
@@ -240,18 +250,43 @@ button__text, .button__text {
   }
 }
 
-.sm1, .card__desc {
+.sm1, .card__desc, .dropdown__button, .dropdown, input[type=text], textarea {
   font-size: 0.8rem;
 }
 @media only screen and (max-width: 768px) {
-  .sm1, .card__desc {
+  .sm1, .card__desc, .dropdown__button, .dropdown, input[type=text], textarea {
     font-size: 0.7rem;
   }
 }
 @media only screen and (max-width: 432px) {
-  .sm1, .card__desc {
+  .sm1, .card__desc, .dropdown__button, .dropdown, input[type=text], textarea {
     font-size: 0.6rem;
   }
+}
+
+.sm2 {
+  font-size: 0.7rem;
+}
+@media only screen and (max-width: 768px) {
+  .sm2 {
+    font-size: 0.6rem;
+  }
+}
+@media only screen and (max-width: 432px) {
+  .sm2 {
+    font-size: 0.5rem;
+  }
+}
+
+.centered {
+  display: block;
+  margin: auto;
+  width: fit-content;
+}
+
+.spaced, .dropdown-search, .input__bottom-msg {
+  margin-top: 7px;
+  margin-bottom: 7px;
 }
 
 .page-content {
@@ -293,12 +328,10 @@ button__text, .button__text {
   width: max(200px, 30%);
   height: 1.2rem;
   font-size: 1rem;
-  margin-bottom: 14px;
 }
 .input--textarea {
   width: calc(100% - 8px);
   height: 3rem;
-  margin-bottom: 14px;
 }
 .input--correct {
   background-color: rgb(152, 201, 172) !important;
@@ -306,9 +339,7 @@ button__text, .button__text {
 .input--wrong {
   background-color: #FFD0D0 !important;
 }
-
 input[type=text], textarea {
-  font-size: 1rem;
   border: 0.5px solid #888888;
   background-color: #FFFFFF;
   padding: 3px;
@@ -367,6 +398,42 @@ input[type=text]:focus, textarea:focus {
   width: 8px;
   height: 8px;
   border-radius: 50%;
+}
+
+/* DROPDOWN STYLES */
+.dropdown {
+  position: relative;
+  display: block;
+  width: clamp(200px, 35%, 300px);
+}
+.dropdown__content {
+  position: absolute;
+  display: none;
+  z-index: 1;
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+  width: 100%;
+}
+.dropdown__button {
+  position: relative;
+  background-color: rgb(240, 231, 186);
+  display: none;
+}
+.dropdown__button:hover {
+  background-color: var(--yellow);
+  color: white;
+  cursor: pointer;
+}
+.dropdown-search {
+  position: relative;
+  width: calc(100% - 8px);
+}
+.dropdown--visible {
+  display: block;
+}
+.dropdown-search:focus ~ .dropdown__content, .dropdown .dropdown__content:hover {
+  display: block;
 }
 
 /* INDEX PAGE STYLES */

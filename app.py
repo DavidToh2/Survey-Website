@@ -33,7 +33,7 @@ def loadSurvey(selectedSurvey):
     if selectedSurvey == None:
         return redirect(url_for('index'))
     surveyQns = auxiliaries.getJSON(f"static/surveys/{selectedSurvey}.json")
-    surveyList = auxiliaries.getJSON("static/data/survey-list.json")
+    surveyList = auxiliaries.doSurveyList('l')
     surveyName = surveyList[selectedSurvey]['survey-title']
     surveyDesc = surveyList[selectedSurvey]['long-description']
     return render_template("survey.html", selectedSurvey = selectedSurvey, surveyQns = surveyQns, surveyName = surveyName, surveyDesc = surveyDesc)
@@ -61,38 +61,37 @@ def submitSurvey():
         noOfQuestions.append(len(questionArray))
 
         sectionAnswers = []
-        correctedSectionAnswers = []
 
         for j in range(0, noOfQuestions[i]):
 
             a = request.form.get(f"s{i+1}-q{j+1}")
             if a == None:
                 return render_template("error.html")
-            sectionAnswers.append(a)
 
                     # Checks if answer is correct
 
             if 'correct-answer' in questionArray[j]:            
                 c = questionArray[j]['correct-answer']
                 if isinstance(c, str):
-                    if c.upper().strip() == a.upper().strip():
-                        correctedSectionAnswers.append(1)
+                    c = c.upper().strip() 
+                    a = a.upper().strip()
+                    if c == a:
+                        status = 1
                     else:
-                        correctedSectionAnswers.append(-1)
+                        status = -1
                 elif isinstance(c, int):
-                    if questionArray[j]['input-type'] == 'options':
-                        correctedSectionAnswers.append({'correct': c, 'response': int(a)})
+                    a = int(a)
+                    if c == int(a):
+                        status = 1
                     else:
-                        if c == int(a):
-                            correctedSectionAnswers.append(1)
-                        else:
-                            correctedSectionAnswers.append(-1)
+                        status = -1
+                sectionAnswers.append({'status': status, 'response': a, 'correct': c})
             else:
-                correctedSectionAnswers.append(0)
+                status = 0
+                sectionAnswers.append({'status': status, 'response': a})
 
             
         Answers.append(sectionAnswers)
-        correctedAnswers.append(correctedSectionAnswers)
 
     # print(username)
     # print(Answers)
@@ -108,14 +107,14 @@ def submitSurvey():
     targetID = db.execute(f"SELECT max(id) from {selectedSurvey} WHERE name = ?", [username]).fetchone()[0]
     for i in range(0, noOfSections):
         for j in range(0, noOfQuestions[i]):
-            db.execute(f"UPDATE {selectedSurvey} SET s{i+1}_q{j+1}_answer = ? WHERE id = ?", (Answers[i][j], targetID))
+            db.execute(f"UPDATE {selectedSurvey} SET s{i+1}_q{j+1}_answer = ? WHERE id = ?", (Answers[i][j]['response'], targetID))
     db.commit()
 
                 # Displays the results page
 
     thank_you_message = f"Thank you {username} for participating in this survey! You may review your responses below:"
 
-    return render_template("survey.html", selectedSurvey = selectedSurvey, surveyQns = surveyQns, surveyName = selectedSurveyName, surveyDesc = thank_you_message, responses = Answers, results = correctedAnswers)
+    return render_template("survey.html", selectedSurvey = selectedSurvey, surveyQns = surveyQns, surveyName = selectedSurveyName, surveyDesc = thank_you_message, results = Answers)
 
 
 @app.route("/results", methods=["GET", "POST"])
@@ -127,8 +126,7 @@ def loadResults():
 
         db = sqlite3.connect("results.db")
         responseData = db.execute(f"SELECT * from {selectedSurvey}").fetchall()     # Fetches all survey data into a 2D array
-        surveyInfo = auxiliaries.parseSurveyInfo(selectedSurvey)                       # Obtain noOfSections and noOfQuestions(per section) info.
-        return render_template("results.html", selectedSurvey = selectedSurvey, responses = responseData, surveyInfo = surveyInfo)
+        return render_template("results.html", selectedSurvey = selectedSurvey, responses = responseData)
 
     else:                   # User first loads in the results page. Select survey prompt
 
