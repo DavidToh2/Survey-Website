@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 import sqlite3
 import auxiliaries
-import json
 
 app = Flask(__name__)
 
@@ -32,7 +31,7 @@ def loadSurvey(selectedSurvey):
 
     if selectedSurvey == None:
         return redirect(url_for('index'))
-    surveyQns = auxiliaries.getJSON(f"static/surveys/{selectedSurvey}.json")
+    surveyQns = auxiliaries.getSurvey(selectedSurvey)
     surveyList = auxiliaries.doSurveyList('l')
     surveyName = surveyList[selectedSurvey]['survey-title']
     surveyDesc = surveyList[selectedSurvey]['long-description']
@@ -47,20 +46,25 @@ def submitSurvey():
         return False
     selectedSurvey = request.form.get("selectedSurvey")
     selectedSurveyName = request.form.get("surveyName")
+
+        # Data validation: checks that selectedSurvey has not been tampered with
     
-    surveyQns = auxiliaries.getJSON(f"static/surveys/{selectedSurvey}.json")
+    if not auxiliaries.doSurveyList("l", selectedSurvey):
+        return False
+    surveyQns = auxiliaries.getSurvey(selectedSurvey)
+
+        # Stores all user input into the Answers[] array
 
     noOfSections = len(surveyQns)
     noOfQuestions = []
-    Answers = []
-    correctedAnswers = []
+    Answers = []                # All user answers
 
     for i in range(0, noOfSections):
 
         questionArray = surveyQns[i]['questions']
         noOfQuestions.append(len(questionArray))
 
-        sectionAnswers = []
+        sectionAnswers = []     # User answers for this particular section
 
         for j in range(0, noOfQuestions[i]):
 
@@ -73,6 +77,7 @@ def submitSurvey():
             if 'correct-answer' in questionArray[j]:            
                 c = questionArray[j]['correct-answer']
                 if isinstance(c, str):
+                    
                     c = c.upper().strip() 
                     a = a.upper().strip()
                     if c == a:
@@ -86,28 +91,35 @@ def submitSurvey():
                     else:
                         status = -1
                 sectionAnswers.append({'status': status, 'response': a, 'correct': c})
+
+                    # Otherwise, open-ended question
             else:
                 status = 0
                 sectionAnswers.append({'status': status, 'response': a})
 
-            
         Answers.append(sectionAnswers)
-
-    # print(username)
-    # print(Answers)
 
                 # Uploads the answers into the database.
         
-    # Checks if SQL table already exists: if not, then creates table
-    auxiliaries.setTable(selectedSurvey, 'create')
+    auxiliaries.setTable(selectedSurvey, 'create')      # Checks if SQL table already exists: if not, then creates table
 
     db = sqlite3.connect("results.db")
 
     db.execute(f"INSERT INTO {selectedSurvey} (name) VALUES (?)", [username])
+
+                # Use parameterised queries to protect against SQL injection attacks. The code is defined with '?' placeholders first,
+                # before the variables are passed into the code, ensuring that the meaning of the code cannot be changed.
+                # https://stackoverflow.com/questions/5616895/how-do-i-use-prepared-statements-for-inserting-multiple-records-in-sqlite-using
+
+                # The integrity of the {selectedSurvey} variable is protected using the survey name validation from above.
+                # Ideally, however, you would want to use SQL composition to pass variable table names or commands.
+                # https://realpython.com/prevent-python-sql-injection/#using-sql-composition
+
     targetID = db.execute(f"SELECT max(id) from {selectedSurvey} WHERE name = ?", [username]).fetchone()[0]
     for i in range(0, noOfSections):
         for j in range(0, noOfQuestions[i]):
             db.execute(f"UPDATE {selectedSurvey} SET s{i+1}_q{j+1}_answer = ? WHERE id = ?", (Answers[i][j]['response'], targetID))
+    
     db.commit()
 
                 # Displays the results page
@@ -120,13 +132,25 @@ def submitSurvey():
 @app.route("/results", methods=["GET", "POST"])
 def loadResults():
 
-    selectedSurvey = request.form.get("survey-select")
+    selectedSurvey = request.form.get("selectedSurvey")
+
+            # Data validation: checks that survey actually exists
+
+    if not auxiliaries.doSurveyList("l", selectedSurvey):
+        return False
 
     if selectedSurvey:      # User clicks on a specific survey
 
         db = sqlite3.connect("results.db")
-        responseData = db.execute(f"SELECT * from {selectedSurvey}").fetchall()     # Fetches all survey data into a 2D array
-        return render_template("results.html", selectedSurvey = selectedSurvey, responses = responseData)
+
+        # Fetches all survey data into a 2D array
+        responseData = db.execute(f"SELECT * from {selectedSurvey}").fetchall()
+
+        # Fetches noOfQuestions data 
+        surveyQns = auxiliaries.getSurvey(selectedSurvey)
+        surveyInfo = auxiliaries.getNoOfQuestions(selectedSurvey)
+
+        return [responseData, surveyInfo, surveyQns]
 
     else:                   # User first loads in the results page. Select survey prompt
 

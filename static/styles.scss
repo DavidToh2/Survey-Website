@@ -327,6 +327,7 @@ button, .button {
         margin-bottom: 30px;
         align-content: flex-start;
         min-height: 100%;
+        width: 100%;
     }
 }
 
@@ -801,55 +802,134 @@ input[type="text"], textarea {
 .results-table {
     border-collapse: collapse;
     font-family: "Georgia", sans-serif;
-    overflow: auto;
     display: block;
 }
 
-.results-table-headerrow {
-    border: 3px solid black;
-    font-size: 1.2rem;
+.results-table__header {
+    padding: 15px;
+    @extend %sm1;
     font-weight: 600;
+    border-left: 1px solid white;
+
+    &-row {
+        background-color: #333333;
+        color: #DDDDDD;
+    }
 }
 
-.results-table-id {
-    width: 50px;
+.results-table__data {
+    @extend %sm2;
+    padding: 12px 30px;
+    @include devices(phone) {
+        padding: 8px 20px;
+    }
+    @include devices(phone_sm) {
+        padding: 5px 12px;
+    }
+
+    &-row:nth-child(odd) {
+        background-color: #AAAAAA;
+        color: #000000;
+
+        &:hover {
+            background-color: #fff19f;
+        }
+    }
+
+    &-row:nth-child(even) {
+        background-color: #DDDDDD;
+        color: #000000;
+        
+        &:hover {
+            background-color: #fff7cc;
+        }
+    }
 }
 
-.results-table-name {
-    min-width: 150px;
-    width: 20%;
+.results-table__tooltip {
+    position: relative;
+    border-bottom: 1px dotted black;
+    text-align: left;
+    padding: 15px 30px;
+    @include devices(phone) {
+        padding: 12px 20px;
+    }
+    @include devices(phone_sm) {
+        padding: 10px 12px;
+    }
+
+    &-row {
+        @extend %sm1;
+        background-color: #555555;
+        color: #DDDDDD;
+    }
+
+    &:hover {
+        background-color: #333333;
+    
+        & > .tooltip {
+            visibility: visible;
+        }
+    }
 }
 
-.results-table-header {
+.tooltip {
+    visibility: hidden;
+    width: 300px;
+    left: -15px;
+    @include devices(tablet) {
+        width: 220px;
+    }
+    @include devices(phone) {
+        width: 150px;
+        left: -12px;
+    }
+    @include devices(phone_sm) {
+        width: 100px;
+        left: -10px;
+    }
     padding: 10px;
-    border: 3px solid black;
+    position: absolute;
+    bottom: 100%;
+    @extend %sm2;
+    border: 2px solid #333333;
+    background-color: white;
+    color: #000000;
+
+    &-list {
+        margin: 0px;
+        list-style-type: circle;
+        @extend %sm2;
+        padding-left: 40px;
+        @include devices(phone) {
+            padding-left: 30px;
+        }
+        @include devices(phone_sm) {
+            padding-left: 20px;
+        }
+    }
+
+    &::after {
+        content: " ";
+        position: absolute;
+        top: 100%; 
+        left: 45px;
+        margin-left: -15px;
+        border-width: 15px;
+        @include devices(phone) {
+            left: 32px;
+            margin-left: -11px;
+            border-width: 11px;
+        }
+        @include devices(phone_sm) {
+            left: 22px;
+            margin-left: -8px;
+            border-width: 8px;
+        }
+        border-style: solid;
+        border-color: #111111 transparent transparent transparent;
+    }
 }
 
-.results-table-question-short {
-    min-width: 100px;
-    width: 10%;
-    padding: 10px;
-    border: 3px solid black;
-}
 
-.results-table-question-long {
-    min-width: 200px;
-    width: 30%;
-    padding: 10px;
-    border: 3px solid black;
-}
 
-.results-table-datarow {
-    border: 2px solid black;
-}
-
-.results-table-data {
-    font-size: 1rem;
-    font-weight: 400;
-    padding: 10px;
-    border: 2px solid black;
-}
-
-tr.results-table-datarow:hover {
-    background-color: #DDDDDD;
-}

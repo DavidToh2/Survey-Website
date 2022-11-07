@@ -8,7 +8,7 @@ import os
 
 def getNoOfQuestions(selectedSurvey):    
     
-    survey = getJSON(f"static/surveys/{selectedSurvey}.json")
+    survey = getSurvey(selectedSurvey)
 
     output = []
     for i in range(0, len(survey)):
@@ -18,9 +18,11 @@ def getNoOfQuestions(selectedSurvey):
         # [ # QNS (S1), # QNS (S2), # QNS (S3), etc. ]
         # Use len() to obtain the number of sections.
 
+def getSurvey(selectedSurvey):
 
+    return getJSON(f"static/surveys/{selectedSurvey}.json")
 
-            # Add, remove, or list all surveys
+            # Add, remove, or list all surveys in survey-list.json
 
 def doSurveyList(option, targetSurvey = None):
 
@@ -30,27 +32,37 @@ def doSurveyList(option, targetSurvey = None):
 
     match(option):
         case 'a':       # Add survey to list
-            if targetSurvey not in surveyList:
+            if targetSurvey == None:
+                return False
+
+            if targetSurvey not in surveyList.keys():
                 surveyList.append(targetSurvey)
 
             with open(targetDir, "w") as f:
                 json.dump(surveyList, f)
 
-            return
+            return True
 
         case 'r':       # Removes survey from list
-            if targetSurvey in surveyList:
+            if targetSurvey == None:
+                return False
+
+            if targetSurvey in surveyList.keys():
                 surveyList.remove(targetSurvey)
 
             with open(targetDir, "w") as f:
                 json.dump(surveyList, f)
 
-            return
+            return True
 
-        case 'l':       # List all surveys
-            return surveyList
+        case 'l':       
+            if targetSurvey == None:    # List all surveys and their info
+                return surveyList
+            
+            if targetSurvey in surveyList.keys():      # Check survey exists
+                return True
 
-
+            return False
 
 def printDatabase():
     print('\n')

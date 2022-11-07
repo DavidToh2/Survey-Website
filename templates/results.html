@@ -21,26 +21,7 @@
             </div>
         </div>
     </div>
-    <div class="section-container">
-
-        <div id="result">
-            {% if selectedSurvey %}
-                <div class="section">
-                    <h1>Results of survey {{ selectedSurvey }}:</h1>
-                </div>
-                <div class="section" id="result-table">
-                    <table class="results-table" id="results-table-data">
-                        {% for result in responses|reverse %}
-                        <tr class="results-table-datarow">
-                            {% for element in result %}
-                            <td class="results-table-data">{{ element }}</td>
-                            {% endfor %}
-                        </tr>
-                        {% endfor %}
-                    </table>
-                </div>
-            {% endif %}
-        </div>
+    <div class="section-container" id="result" style="overflow: scroll;">
 
     </div>
 
