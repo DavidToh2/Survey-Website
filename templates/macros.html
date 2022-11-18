@@ -77,9 +77,9 @@
 
 {% endmacro %}
 
-{% macro radioOptionMarked(sectionIndex, questionIndex, optionArray, response) %}
-    {% set status = response['status'] %}
-    {% set userResponse = response['response'] | int %}
+{% macro radioOptionMarked(sectionIndex, questionIndex, optionArray, result) %}
+    {% set status = result['status'] %}
+    {% set userResponse = result['response'] | int %}
 
     {% if status == 0 %}
         <!-- Question has no correct answer-->
@@ -99,7 +99,7 @@
 
     {% else %}
 
-        {% set correctAnswer = response['correct'] %}
+        {% set correctAnswer = result['correct'] %}
         <!-- Question has a correct answer-->
         {% for option in optionArray %}
             {% if loop.index == correctAnswer %}

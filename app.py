@@ -148,7 +148,7 @@ def loadResults():
 
     if not auxiliaries.doSurveyList("l", selectedSurvey):
         return False
-
+        
     if selectedSurvey:      # User clicks on a specific survey
 
         db = sqlite3.connect("results.db")
