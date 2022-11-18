@@ -148,7 +148,7 @@ def loadResults():
 
     if not auxiliaries.doSurveyList("l", selectedSurvey):
         return False
-        
+
     if selectedSurvey:      # User clicks on a specific survey
 
         db = sqlite3.connect("results.db")
@@ -157,10 +157,10 @@ def loadResults():
         responseData = db.execute(f"SELECT * from {selectedSurvey}").fetchall()
 
         # Fetches noOfQuestions data 
-        surveyQns = auxiliaries.getSurvey(selectedSurvey)
-        surveyInfo = auxiliaries.getNoOfQuestions(selectedSurvey)
+        surveyInfo = auxiliaries.getSurvey(selectedSurvey)
+        surveyQns = auxiliaries.getNoOfQuestions(selectedSurvey)
 
-        return [responseData, surveyInfo, surveyQns]
+        return [responseData, surveyQns, surveyInfo]
 
     else:                   # User first loads in the results page. Select survey prompt
 
