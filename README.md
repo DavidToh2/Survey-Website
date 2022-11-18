@@ -6,7 +6,7 @@
 - **JQuery** used to build HTML pages, as well as manipulate a few design elements of the page
 
 ## The survey
-- Data stored in **JSON** files
+- Information stored in **JSON** files
 - Surveys indexed in `/data/survey-list.json`, containing internal and display names as well as their short (i.e. card) and long (i.e. survey page) descriptions
   - Data structure:
 ```
@@ -19,7 +19,7 @@
     }
 }
 ```
-- Data for individual survey stored in `/surveys/<internal name>.json`.
+- Information for individual survey stored in `/surveys/<internal name>.json`.
   - Data structure:
 ```
 [
@@ -62,8 +62,8 @@ CREATE TABLE <internal survey name> (
 | Function | Description |
 | --- | --- |
 | `printDatabase()` | Prints out the entire database schema in the console |
-| `getSurvey(survey)` | Returns the target survey's entire JSON file, i.e. the survey data |
-| `getNoOfQuestions(survey)` | Fetches survey data with `getSurvey()`, then parses it to return an array in the format <br />` [ No. of qns in Section 1, No. of qns in Section 2, ... ]  ` |
+| `getSurvey(survey)` | Returns the target survey's entire JSON file, i.e. the survey information |
+| `getNoOfQuestions(survey)` | Fetches survey information with `getSurvey()`, then parses it to return an array in the format <br />` [ No. of qns in Section 1, No. of qns in Section 2, ... ]  ` |
 | `setTable(survey, 'create'\|'delete'\|'clear')` | `create`: Creates a table for the new survey, based on information from `getNoOfQuestions(survey)` <br /> `delete`: Deletes the entire table <br /> `clear`: Clears the entire table |
 | `doSurveyList('a'\|'r'\|'l', survey)` | Add, remove or list all surveys in `survey-list.json` |
 
@@ -76,7 +76,7 @@ CREATE TABLE <internal survey name> (
 - Website at [this link](https://survey-website-flask.herokuapp.com/)...at least until November 27, 2022
 - Staging app at [this link](https://survey-website-flask-staging.herokuapp.com/). The website is no longer in development, so both are now identical
 
-## Data flow
+## Data flow: Survey submission
 
 **The survey form is rendered** using JINJA2 macros:
 ```
@@ -88,7 +88,7 @@ CREATE TABLE <internal survey name> (
 
 **HTML form inputs** are **passed by POST** upon form submission to `app.py`. (The survey internal and display names are stored in hidden inputs.)
 
-**Survey data** is obtained using the auxiliary functions
+**Survey information** is obtained using the auxiliary functions
 ```
 doSurveyList("l", selectedSurvey)   # Checks that selectedSurvey exists -
                                     # otherwise potential avenue for XSS
@@ -110,11 +110,11 @@ results = [
 
 Survey responses are then **added to the database**:
 ```
-db.execute("SELECT max(id) from {selectedSurvey} WHERE name = ?", [username])
+db.execute("SELECT max(id) from {selectedSurvey} WHERE name = ?", [username]).fetchone()[0]
 db.execute("UPDATE {selectedSurvey} SET s{i+1}_q{j+1}_answer = ? WHERE id = ?", (Answers[i][j]['response'], targetID))
 ```
 
-Finally, survey data (i.e. questions) and responses are passed to the the **thank-you page** to be rendered by JINJA2 macros.
+Finally, survey information (i.e. questions) and responses are passed to the the **thank-you page** to be rendered by JINJA2 macros.
 - Recall that `result = {'status': 0|1|-1, 'response', 'correct'}`
 ```
 {% macro [text|textArea]Marked( sectionIndex, questionIndex, result ) %}
@@ -127,7 +127,36 @@ Finally, survey data (i.e. questions) and responses are passed to the the **than
 {% endmacro %}
 ```
 
+## Data flow: Fetching results
+
+To **select a survey**, `doSurveyList('l')` is called to return a list of surveys, used to build a drop-down menu.
+
+A **search function** implemented in `scripts/results-script.js` implements
+```
+function filter(HTMLElement, search directory) {
+    if HTMLElement.value not in search directory:
+        Set corresponding drop-down item to be invisible
+}
+```
+which is called `onKeyUp()` of the search input.
+
+On **selecting a survey**, a **POST request** is sent via Javascript to `app.py` that returns all survey data, as well as survey information.
+```
+db.execute(f"SELECT * from {selectedSurvey}").fetchall()
+```
+
+The Javascript then **builds the result table**, using the survey information to populate the hoverable header and question tooltips.
+
 ## Areas for Improvement:
 
-- Survey data-parsing and marking should be implemented in a separate Python module to avoid clogging up `app.py`
-- The code in `auxiliaries.py` can be more organised and optimised
+- Python auxiliaries should be more structured
+  - Survey data-parsing and marking should be implemented in a separate Python module to avoid clogging up `app.py`
+- Use a proper Javascript framework for updating HTML
+- Split `styles.scss` into multiple files, then compile using `SASS`, instead of using one giant file
+- Survey information can potentially be stored in a database instead?
+
+Features that can be added:
+- Nicer-looking pages and CSS formatting in general
+- Contribute and modify surveys
+- Login system
+- (Admin) Modify or clear the database from the website directly
