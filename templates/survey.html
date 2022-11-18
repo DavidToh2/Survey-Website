@@ -12,7 +12,7 @@
         <div class="colourful-title__container">
             <p class="h2 colourful-title" style="display: block;">{{ surveyName }}</p>
         </div>
-        <p style="margin: 0px;">{{ surveyDesc }}</p>
+        <p style="margin: 0px;">{{ surveyDesc|safe }}</p>
     </div>
 </div>
 
@@ -59,6 +59,8 @@
 
                     {% if question['input-type'] == "text" %}
 
+                    <!-- Display user input for text questions -->
+
                         {% if results %}
                             {{ macros.textMarked(section_loop.index, loop.index, results[section_loop.index0][loop.index0]) }}
                         {% else %}
@@ -71,6 +73,8 @@
 
                     {% elif question['input-type'] == "textarea" %}
 
+                    <!-- Display user input for textarea questions -->
+
                         {% if results %}
                             {{ macros.textareaMarked(section_loop.index, loop.index, results[section_loop.index0][loop.index0]) }}
                         {% else %}
@@ -78,6 +82,8 @@
                         {% endif %}
 
                     {% elif question['input-type'] == "options" %}
+
+                    <!-- Display user input for option questions -->
 
                     <div class="survey-question__answer input--radio">
                         {% set question_loop = loop %}

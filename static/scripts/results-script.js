@@ -36,20 +36,20 @@ function showSurvey(HTMLelement) {
     }, function(data) {
 
         var responseData = data[0];
-        var surveyInfo = data[1];
-        var surveyQns = data[2];
+        var surveyInfo = data[1];   // Array containing no. of qns per section
+        var surveyQns = data[2];    // Array containing descriptions, question text, question type and option text
         var outputHTML = [];
 
         outputHTML.push(`
         <div class="section">
-            <div class="h3" style="margin: 50px 0px; width: 100%;">Results of survey ${selectedSurvey}:</div>
+            <div class="h3" style="margin: 200px 0px 50px 0px; width: 100%;">Results of survey ${selectedSurvey}:</div>
         </div>
-        <div id="result-table" style="overflow: visible;">
+        <div id="result-table" style="overflow: visible; padding: 0px 50px; width: 100%;">
             <table class="results-table" id="results-table-data">
                 <tr class="results-table__header-row">
         `);
 
-            // Formats headers
+            // Formats headers with hoverable tooltips displaying section descriptions
 
         outputHTML.push(`
                     <th class="results-table__header">ID</th>
@@ -57,7 +57,12 @@ function showSurvey(HTMLelement) {
         `);
         for (i=0; i<surveyInfo.length; i++) {
             outputHTML.push(`
-                    <th class="results-table__header" colspan="${surveyInfo[i]}">Section ${i+1}</th>
+                    <th class="results-table__header" colspan="${surveyInfo[i]}">
+                        ${surveyQns[i]['section-name']}
+                        <div class="tooltip">
+                            ${surveyQns[i]['section-desc']}
+                        </div>
+                    </th>
             `);
         }
 
@@ -66,9 +71,6 @@ function showSurvey(HTMLelement) {
         `);
 
             // Formats question numbers with hoverable tooltips displaying questions
-
-        console.log("hello");
-
         
         outputHTML.push(`
             <tr class="results-table__tooltip-row">
@@ -81,29 +83,28 @@ function showSurvey(HTMLelement) {
                 var currentQn = surveyQns[i]['questions'][j];
 
                 console.log(currentQn);
-
+                
+                // Tooltip HTML built in qnOutput
                 let qnOutput = [
                     `${currentQn['question']}`
                 ];
                 if (currentQn['input-type'] == "options") {
                     qnOutput.push(
-                        `<ul class="tooltip-list">
+                        `<ol class="tooltip-list">
                             <li>${currentQn['options'][0]}</li>
                             <li>${currentQn['options'][1]}</li>
                             <li>${currentQn['options'][2]}</li>
                             <li>${currentQn['options'][3]}</li>
-                        </ul>
+                        </ol>
                         `
                     )
                 }
                 outputHTML.push(`
                     <td class="results-table__tooltip">
                         Q${j+1}
-                        <div class="tooltip">`)
-
+                        <div class="tooltip">`);
                 outputHTML.push(qnOutput.join(""));
                 outputHTML.push(`
-                            
                         </div>
                     </td>
                 `);

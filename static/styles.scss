@@ -406,11 +406,15 @@ input[type="text"], textarea {
     }
 
     &--correct {
-        background-color:rgb(152, 201, 172) !important;
+        background-color:rgb(152, 201, 172);
     }
 
     &--wrong {
-        background-color: #FFD0D0 !important;
+        background-color: #FFD0D0;
+    }
+
+    &--selected {
+        background-color: #fff99e;
     }
 
     &-option {
@@ -802,7 +806,7 @@ input[type="text"], textarea {
 .results-table {
     border-collapse: collapse;
     font-family: "Georgia", sans-serif;
-    display: block;
+    margin: auto;
 }
 
 .results-table__header {
@@ -810,21 +814,38 @@ input[type="text"], textarea {
     @extend %sm1;
     font-weight: 600;
     border-left: 1px solid white;
+    position: relative;
+    text-align: left;
 
     &-row {
         background-color: #333333;
         color: #DDDDDD;
+    }
+
+    &:hover {
+        background-color: #444444;
+    
+        & > .tooltip {
+            visibility: visible;
+        }
     }
 }
 
 .results-table__data {
     @extend %sm2;
     padding: 12px 30px;
+    width: max-content;
+    max-width: 750px;
+    @include devices(tablet) {
+        max-width: 550px;
+    }
     @include devices(phone) {
         padding: 8px 20px;
+        max-width: 400px;
     }
     @include devices(phone_sm) {
         padding: 5px 12px;
+        max-width: 280px;
     }
 
     &-row:nth-child(odd) {
@@ -869,23 +890,24 @@ input[type="text"], textarea {
     
         & > .tooltip {
             visibility: visible;
+            left: 0;
         }
     }
 }
 
 .tooltip {
     visibility: hidden;
-    width: 300px;
-    left: -15px;
+    width: max-content;
+    max-width: 450px;
     @include devices(tablet) {
-        width: 220px;
+        max-width: 300px;
     }
     @include devices(phone) {
-        width: 150px;
+        max-width: 220px;
         left: -12px;
     }
     @include devices(phone_sm) {
-        width: 100px;
+        max-width: 150px;
         left: -10px;
     }
     padding: 10px;
@@ -898,7 +920,6 @@ input[type="text"], textarea {
 
     &-list {
         margin: 0px;
-        list-style-type: circle;
         @extend %sm2;
         padding-left: 40px;
         @include devices(phone) {

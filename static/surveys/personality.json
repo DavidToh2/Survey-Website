@@ -1,5 +1,84 @@
 [
     {
-        "section-no": 1
+        "section-no": 1,
+        "section-name": "Personality",
+        "section-desc": "Random questions",
+        "questions": [
+            {
+                "question": "Your favorite song is?",
+                "input-type": "options",
+                "options": [
+                    "Angry and screamy and unromantic",
+                    "Electronic",
+                    "Bright and happy",
+                    "The newest pop/rap mix that everyone's downloading",
+                    "The most popular pop music"
+                ]
+            },
+            {
+                "question": "You are hanging with your BFFs, and one of your crew's boyfriends or girlfriends comes along. He/She starts talking like they're the only ones there. What would you do?",
+                "input-type": "options",
+                "options": [
+                    "Hang around and smile, but only if you're invited to.",
+                    "Boldly join in. Hey! You exist too!",
+                    "Slowly back out. It's their personal conversation; you shouldn't listen.",
+                    "Make your disdain visible just to her.",
+                    "Follow your friend's leads. They know what to do!"
+                ]
+            },
+            {
+                "question": "What is your favorite sport?",
+                "input-type": "options",
+                "options": [
+                    "Cheerleading",
+                    "Soccer or Rugby",
+                    "Golf, Badminton or Tennis",
+                    "Horseback riding or Running",
+                    "I hate sports"
+                ]
+            },
+            {
+                "question": "What would be your perfect date?",
+                "input-type": "options",
+                "options": [
+                    "Sitting on a park bench talking",
+                    "A movie followed by an ice cream. Classic.",
+                    "Going out on a hike",
+                    "A meal at a five-star restaurant",
+                    "Hanging out with your crew"
+                ]
+            },
+            {
+                "question": "Which of these values matters to you the most?",
+                "input-type": "options",
+                "options": [
+                    "Integrity",
+                    "Loyalty",
+                    "Fun-spirited",
+                    "Dedication",
+                    "Empathy"
+                ]
+            },
+            {
+                "question": "If you could have dinner with anyone in the world, whom would it be and why?",
+                "input-type": "textarea"
+            },
+            {
+                "question": "Do you think you'd like to be famous? What would you be famous for?",
+                "input-type": "textarea"
+            },
+            {
+                "question": "Before you call someone, do you take time to think about what you are going to say to them?",
+                "input-type": "textarea"
+            },
+            {
+                "question": "What does a perfect day look like to you?",
+                "input-type": "textarea"
+            },
+            {
+                "question": "What do you have in common with your family?",
+                "input-type": "textarea"
+            }
+        ]
     }
 ]

@@ -38,49 +38,81 @@
 {% macro textMarked(sectionIndex, questionIndex, result) %}
     {% set status = result['status'] %}
     {% set response = result['response'] %}
+
     <div class="survey-question__answer">
+
+    <!-- Correct or wrong question, respectively-->
     {% if status == 1 %}
         <input type="text" class="input--short input--correct" name="s{{sectionIndex}}-q{{questionIndex}}" value="{{response}}" readonly>
     {% elif status == -1 %}
         <input type="text" class="input--short input--wrong" name="s{{sectionIndex}}-q{{questionIndex}}" value="{{response}}" readonly>
         <p class="input__bottom-msg">Correct answer: {{result['correct']}}</p>
+
+    <!-- Open-ended question-->
     {% else %}
         <input type="text" class="input--short" name="s{{sectionIndex}}-q{{questionIndex}}" value="{{response}}" readonly>
     {% endif %}
     </div>
+
 {% endmacro %}
 
 {% macro textareaMarked(sectionIndex, questionIndex, result) %}
     {% set status = result['status'] %}
     {% set response = result['response'] %}
+
     <div class="survey-question__answer">
+    
+    <!-- Correct or wrong question, respectively-->
     {% if status == 1 %}
         <textarea class="input--textarea input--correct" name="s{{sectionIndex}}-q{{questionIndex}}" readonly>{{response}}</textarea>
     {% elif status == -1 %}
         <textarea class="input--textarea input--wrong" name="s{{sectionIndex}}-q{{questionIndex}}" readonly>{{response}}</textarea>
         <p class="input__bottom-msg">Correct answer: {{result['correct']}}</p>
+    
+    <!-- Open-ended question-->
     {% else %}
         <textarea class="input--textarea" name="s{{sectionIndex}}-q{{questionIndex}}" readonly>{{response}}</textarea>
     {% endif %}
     </div>
+
 {% endmacro %}
 
 {% macro radioOptionMarked(sectionIndex, questionIndex, optionArray, response) %}
-    {% set correctAnswer = response['correct'] %}
-    {% set userResponse = response['response'] %}
-    {% for option in optionArray %}
-        {% if loop.index == correctAnswer %}
-            <label class="radio-option radio--correct">
-                <input type="radio" id="s{{sectionIndex}}-q{{questionIndex}}-{{loop.index}}" name="s{{sectionIndex}}-q{{questionIndex}}" value="{{loop.index}}">
-        {% elif loop.index == userResponse %}
-            <label class="radio-option radio--wrong">
-                <input type="radio" id="s{{sectionIndex}}-q{{questionIndex}}-{{loop.index}}" name="s{{sectionIndex}}-q{{questionIndex}}" value="{{loop.index}}">
-        {% else %}
-            <label class="radio-option">
-                <input type="radio" id="s{{sectionIndex}}-q{{questionIndex}}-{{loop.index}}" name="s{{sectionIndex}}-q{{questionIndex}}" value="{{loop.index}}">
-        {% endif %}
-                <span class="radio-button"></span>
-                {{option}}
-            </label>
-    {% endfor %}
+    {% set status = response['status'] %}
+    {% set userResponse = response['response'] | int %}
+
+    {% if status == 0 %}
+        <!-- Question has no correct answer-->
+        {% for option in optionArray %}
+            {% if loop.index == userResponse %}
+                <!-- This option was selected-->
+                <label class="radio-option radio--selected">
+            {% else %}
+                <!-- This option was not selected-->
+                <label class="radio-option">
+            {% endif %}
+                    <input type="radio" id="s{{sectionIndex}}-q{{questionIndex}}-{{loop.index}}" name="s{{sectionIndex}}-q{{questionIndex}}" value="{{loop.index}}" disabled>
+                    <span class="radio-button"></span>
+                    {{option}}
+                </label>
+        {% endfor %}
+
+    {% else %}
+
+        {% set correctAnswer = response['correct'] %}
+        <!-- Question has a correct answer-->
+        {% for option in optionArray %}
+            {% if loop.index == correctAnswer %}
+                <label class="radio-option radio--correct">
+            {% elif loop.index == userResponse %}
+                <label class="radio-option radio--wrong">
+            {% else %}
+                <label class="radio-option">
+            {% endif %}
+                    <input type="radio" id="s{{sectionIndex}}-q{{questionIndex}}-{{loop.index}}" name="s{{sectionIndex}}-q{{questionIndex}}" value="{{loop.index}}" disabled>
+                    <span class="radio-button"></span>
+                    {{option}}
+                </label>
+        {% endfor %}
+    {% endif %}
 {% endmacro %}

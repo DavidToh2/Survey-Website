@@ -72,7 +72,7 @@ def submitSurvey():
             if a == None:
                 return render_template("error.html")
 
-                    # Checks if answer is correct
+                    # If there is a correct answer, checks if answer is correct
 
             if 'correct-answer' in questionArray[j]:            
                 c = questionArray[j]['correct-answer']
@@ -123,6 +123,16 @@ def submitSurvey():
     db.commit()
 
                 # Displays the results page
+                # results = [
+                #   [Every section has its own array.
+                #    Each question is stored as an dictionary:
+                #       {
+                #           'status': 0 for open-ended, 1 for correct, -1 for wrong,
+                #           'response': user answer,
+                #           'correct': correct answer, if it exists
+                #       }
+                #   ]
+                # ]
 
     thank_you_message = f"Thank you {username} for participating in this survey! You may review your responses below:"
 
